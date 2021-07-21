@@ -11,24 +11,29 @@
       height: 800px;
       width: 800px;
       display: flex;
-      flex-direction: row;
-      /* justify-content: space-around; */
-      /* justify-content: space-between; */
-      /* justify-content: flex-start; */
-      /* justify-content: flex-end; */
-      justify-content: center;
+      flex-wrap: wrap;
+      /* align-content: center; */
+      /* align-content: flex-start; */
+      /* align-content: flex-end; */
+      /* align-content: space-around; */
+      /* align-content: space-between; */
+      align-content: stretch;
     }
 
     div > span {
       background-color: yellow;
-      height: 200px;
+      /* height: 200px; */
       width: 200px;
+      margin: 20px;
     }
 
   </style>
 </head>
 <body>
   <div>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
     <span>1</span>
     <span>2</span>
     <span>3</span>
