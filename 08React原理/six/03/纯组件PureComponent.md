@@ -1,3 +1,0 @@
-## 纯组件React.PureComponent 与 React.Component相似，不同点在于PureComponent内部实现了shouldComponentUpdate钩子函数，不需要手动比较，纯组件内部通过比较前后两次的state和props的值，来决定是否重新渲染组件
-
-## 使用纯组件的注意事项，纯组件内部对比是浅层对比，当state或者props是一个对象时，修改了前后同一引用地址对象中的属性值时，纯组件PureComponent认为引用地址没变，引用还是同一个地址的对象，虽然对象发生了改变，但是组件依然不会重新渲染
