@@ -1,0 +1,197 @@
+
+{
+  "name": "hzero-fornt",
+  "private": true,
+  "devDependencies": {
+    "conventional-changelog-cli": "^2.0.12",
+    "lerna": "3.20.2",
+    "standard-version": "^5.0.2",
+    "@smock/umi-plugin-smock": "^0.1.22",
+    "@smock/umi-plugin-sproxy": "^0.1.14",
+    "@typescript-eslint/parser": "2.19.0",
+    "hzero-cli-preset-ui": "^3.3.0",
+    "@typescript-eslint/eslint-plugin": "2.19.2",
+    "typescript": "^3.7.4",
+    "yarn": "^1.13.0",
+    "hzero-cli": "~2.0.147-alpha.1",
+    "hzero-boot": "~2.0.0",
+    "@babel/cli": "*",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/plugin-proposal-decorators": "^7.7.4"
+  },
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "choerodon-ui": "*",
+     "hzero-front": "~1.7.0", 
+    "hzero-front-hiam": "~1.7.0",
+    "hzero-front-hpfm": "~1.7.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
+  },
+  "resolutions": {
+    "mobx": "4.15.7",
+    "mobx-react": "6.1.4",
+    "hzero-front": "~1.7.0",
+    "eslint": "5.12.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-config-react-app": "^3.0.7",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-compat": "^3.3.0",
+    "eslint-plugin-flowtype": "2.50.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-react": "7.12.4",
+    "stylelint":"13.7.1",
+    "conventional-changelog": "~3.0.6",
+    "browserslist": "4.8.5",
+    "choerodon-ui": "^0.8.59",
+    "lerna": "3.20.2",
+    "url-loader": "1.1.2",
+    "css-loader": "1.0.0",
+    "react-dnd": "^10.0.2",
+    "react-dnd-html5-backend": "^10.0.2",
+    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "file-loader": "2.0.0",
+    "mini-css-extract-plugin": "0.4.1",
+    "less-loader": "5.0.0",
+    "caniuse-lite": "1.0.30001028",
+    "@babel/cli": "^7.8.4",
+    "webpack": "4.42.1",
+    "react": "16.12.0",
+    "react-router": "4.3.1",
+    "react-router-dom": "4.3.1",
+    "react-dom": "16.12.0",
+    "html-webpack-plugin": "4.0.0-alpha.2",
+    "typescript": "3.8.2"
+  },
+  "description": "description for hzero-fornt",
+  "author": "",
+  "version": "0.0.1",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "scripts": {
+    "mock": "smock -p 5000",
+    "proxy": "sproxy -p 10011",
+    "codeScan": "hzero codeScan",
+    "start": "hzero-cli start",
+    "start:mock": "cross-env NODE_PROFILE=mock hzero-cli start",
+    "build": "hzero-cli build --all-packages",
+    "build:production": "cross-env NODE_OPTIONS='--max_old_space_size=8196' NODE_PROFILE=production hzero-cli build --only-build-micro --all-packages",
+    "build:all-ms": "hzero-cli build --only-build-micro --all-packages",
+    "build:ms": "cross-env NODE_OPTIONS='--max_old_space_size=8196' hzero-cli build --only-build-micro",
+    "build:ext-ms": "cross-env BUILD_PUBLIC_MS=true BUILD_DIST_PATH=./dist-ext BUILD_SKIP_PARENT=true hzero-cli build --only-build-micro",
+    "build:analyze": "cross-env ANALYZE=true hzero-cli build",
+    "build:dll": "hzero-cli build --build-dll",
+    "build:dll-dev": "hzero-cli build --build-dll --build-dll-dev",
+    "transpile": "hzero-cli transpile --all",
+    "lint": "eslint 'src/**/*.{js,jsx,tsx,ts}' && npm run lint:style && tsc --noEmit --emitDeclarationOnly false",
+    "lint:fix": "eslint --quiet --fix 'src/**/*.{js,jsx,tsx,ts}' && npm run lint:style",
+    "lint:style": "stylelint \"src/**/*.less\" --syntax less",
+    "lint-staged": "lint-staged",
+    "bootstrap": "yarn --registry http://nexus.saas.hand-china.com/content/groups/hzero-npm-group/",
+    "test": "node scripts/test.js",
+    "changelog": "node node_modules/.bin/conventional-changelog -p eslint -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
+    "prettier": "prettier --write ./src/**/**/**/*",
+    "tree": "tree -I node_modules -L 3",
+    "release": "standard-version",
+    "release-module": "node scripts/release.js",
+    "icon": "npx cross-env ICON_FONT_URL=//at.alicdn.com/t/font_1440728_2mntu9m71ej.css node scripts/icon.js",
+    "hzero-version": "node scripts/version.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged",
+      "post-merge": "git submodule update",
+      "post-checkout": "git submodule update"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not ie <= 10",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "resolver": "jest-pnp-resolver",
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "<rootDir>/node_modules/jest-watch-typeahead/filename.js",
+      "<rootDir>/node_modules/jest-watch-typeahead/testname.js"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,tsx,ts}": [
+      "eslint --quiet --fix",
+      "git add"
+    ],
+    "packages/*/src/**/*.{js,jsx,tsx,ts}": [
+      "eslint --quiet --fix",
+      "git add"
+    ],
+    "src/**/*.less": [
+      "stylelint --syntax less",
+      "git add"
+    ],
+    "packages/**/src/**/*.less": [
+      "stylelint --syntax less",
+      "git add"
+    ],
+    "src/**/*.{js,jsx,tsx,ts,less}": [
+      "prettier --write",
+      "git add"
+    ],
+    "packages/*/src/**/*.{js,jsx,tsx,ts,less}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
