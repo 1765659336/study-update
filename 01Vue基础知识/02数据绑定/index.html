@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据绑定</title>
+  <script src="../vue.js"></script>
+</head>
+<body>
+  <script>
+    Vue.config.productionTip = false;
+  </script>
+  <div id="root">
+    单向数据绑定：<input type="text" v-bind:value="value">
+    <br>
+    双向数据绑定：<input type="text" v-model:value="value">
+    <br>
+    <!-- 双向数据绑定在绑定数据上比单向数据绑定好，那么为什么不都用v-model呢？因为v-model只能作用到表单元素上 -->
+    <!-- 双向数据绑定v-model:value可以简写为v-model，因为v-model默认就是绑定value属性的值 -->
+    单向数据绑定简写：<input type="text" :value="value">
+    <br>
+    双向数据绑定简写：<input type="text" v-model="value">
+  </div>
+  <script>
+    new Vue({
+      el: '#root',
+      data: {
+        value: 'hahaha'
+      }
+    })
+  </script>
+</body>
+</html>

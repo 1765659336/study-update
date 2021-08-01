@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>title</title>
+</head>
+<body>
+  <script>
+    // 通过操作obj2代理改变obj1中的值
+    const obj1 = {
+      x:1
+    }
+
+    const obj2 = {
+      y:2
+    }
+
+    Object.defineProperty(obj2,'x',{
+      get(){
+        return obj1.x
+      },
+      set(x){
+        obj1.x = x
+      }
+    })
+
+    console.log(obj2.x);
+    obj2.x = 2;
+    console.log(obj2.x);
+  </script>
+</body>
+</html>

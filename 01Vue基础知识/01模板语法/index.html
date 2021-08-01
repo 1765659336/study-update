@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>模板语法</title>
+  <script src="../vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!-- 模板语法分为插值语法和指令语法，vue实例中的所有东西都可以在其绑定的节点中直接使用 -->
+    <!-- 其中不能写ifwhile等逻辑判断式 -->
+    <!-- 插值语法是用来给标签内容解析js表达式的 -->
+    <h1>插值语法</h1>
+    <span>hello,{{who}}</span>
+    <!-- 指令语法是用来给标签属性解析js表达式的 -->
+    <h1>指令语法</h1>
+    <a :href="url">百度一下</a>
+  </div>
+  <script>
+    // 阻止vue在启动时产生生产提示
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    new Vue({
+      el: '#root',
+      data: {
+        who:'world',
+        url:'http://www.baidu.com'
+      }
+    })
+  </script>
+</body>
+</html>

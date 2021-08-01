@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>title</title>
+  <script src="../vue.js"></script>
+</head>
+<body>
+  <script>
+    Vue.config.productionTip = false;
+  </script>
+  <div id="root">
+    {{value}}
+  </div>
+  <script>
+    const v = new Vue({
+      el: '#root',
+      // 注意不要写出箭头函数，不然this指向就不是vue实例或组件，vue实例其实也可以理解为一个组件
+      // data在组件中使用时必须写成函数式
+      data(){
+        return {
+          value: 'hahaha'
+        }
+      }
+    })
+    v.$mount('#root')
+  </script>
+</body>
+</html>
