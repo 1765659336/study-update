@@ -1,6 +1,6 @@
 <template>
-  <div class="school">
-    <h1>{{msg}}</h1>
+  <div class="school fs">
+    <span>{{msg}}</span>
   </div>
 </template>
 <script>
@@ -13,8 +13,12 @@ export default {
 	},
 };
 </script>
-<style>
+<style scoped>
 .school {
   background-color: skyblue;
+}
+
+.fs {
+  font-size: 30px;
 }
 </style>

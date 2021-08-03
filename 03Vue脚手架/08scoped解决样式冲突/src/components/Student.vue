@@ -1,6 +1,6 @@
 <template>
-  <div class="student">
-		<h1>{{msg}}</h1>
+  <div class="fs">
+		<span>{{msg}}</span>
   </div>
 </template>
 <script>
@@ -13,8 +13,9 @@ export default {
 	},
 };
 </script>
-<style>
-.student {
-  background-color: pink;
+<style scoped lang="less">
+.fs {
+	background-color: pink;
+	font-size: 20px;
 }
 </style>
