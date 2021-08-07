@@ -3,8 +3,8 @@
     <div class="todo-container">
       <div class="todo-wrap">
         <MyHeader addEvent:="addEvent"></MyHeader>
-        <MyList :todos="todos" :changeState="changeState" :deleteEvent="deleteEvent"></MyList>
-        <MyFooter :todos="todos"></MyFooter>
+        <MyList :todos="todos" :changeState="changeState"></MyList>
+        <MyFooter></MyFooter>
       </div>
     </div>
   </div>
@@ -40,13 +40,6 @@ export default {
           todo.done = !todo.done
         }
       });
-    },
-    // 删除事项
-    deleteEvent(id){
-      // 过滤函数，return是过滤条件，返回一个新数组
-      this.todos = this.todos.filter( todo => {
-        return todo.id !== id
-      })
     }
   },
 };

@@ -2,9 +2,9 @@
   <div id="root">
     <div class="todo-container">
       <div class="todo-wrap">
-        <MyHeader addEvent:="addEvent"></MyHeader>
-        <MyList :todos="todos" :changeState="changeState" :deleteEvent="deleteEvent"></MyList>
-        <MyFooter :todos="todos"></MyFooter>
+        <MyHeader :receive="receive"></MyHeader>
+        <MyList :todos="todos"></MyList>
+        <MyFooter></MyFooter>
       </div>
     </div>
   </div>
@@ -29,24 +29,9 @@ export default {
     }
   },
   methods: {
-    // 接收数据的函数,添加代办事项
-    addEvent(e){
+    // 接收数据的函数
+    receive(e){
       this.todos.unshift(e)
-    },
-     // 修改事项的状态
-    changeState(id){
-      this.todos.forEach(todo => {
-        if(todo.id === id){
-          todo.done = !todo.done
-        }
-      });
-    },
-    // 删除事项
-    deleteEvent(id){
-      // 过滤函数，return是过滤条件，返回一个新数组
-      this.todos = this.todos.filter( todo => {
-        return todo.id !== id
-      })
     }
   },
 };

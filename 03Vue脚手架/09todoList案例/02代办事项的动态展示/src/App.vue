@@ -2,9 +2,9 @@
   <div id="root">
     <div class="todo-container">
       <div class="todo-wrap">
-        <MyHeader addEvent:="addEvent"></MyHeader>
-        <MyList :todos="todos" :changeState="changeState" :deleteEvent="deleteEvent"></MyList>
-        <MyFooter :todos="todos"></MyFooter>
+        <MyHeader></MyHeader>
+        <MyList></MyList>
+        <MyFooter></MyFooter>
       </div>
     </div>
   </div>
@@ -17,38 +17,7 @@ import MyList from "./components/MyList.vue";
 
 export default {
 	name: "App",
-  components:{MyHeader,MyFooter,MyList},
-  data() {
-    return {
-      todos: [
-        // 负责任一点id都得是字符串，因为数字是有尽头的
-        {id: '0001', title: '吃饭' , done: true},
-        {id: '0002', title: '睡觉' , done: false},
-        {id: '0003', title: '打豆豆' , done: false}
-      ]
-    }
-  },
-  methods: {
-    // 接收数据的函数,添加代办事项
-    addEvent(e){
-      this.todos.unshift(e)
-    },
-     // 修改事项的状态
-    changeState(id){
-      this.todos.forEach(todo => {
-        if(todo.id === id){
-          todo.done = !todo.done
-        }
-      });
-    },
-    // 删除事项
-    deleteEvent(id){
-      // 过滤函数，return是过滤条件，返回一个新数组
-      this.todos = this.todos.filter( todo => {
-        return todo.id !== id
-      })
-    }
-  },
+	components:{MyHeader,MyFooter,MyList}
 };
 </script>
 
