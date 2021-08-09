@@ -32,7 +32,6 @@ const getters = {
     return state.sum * 10
   }
 }
-
 // ---------
 
 // 在这里声明使用插件，而不在main.js中引用

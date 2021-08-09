@@ -22,17 +22,9 @@ const mutations = {
     context.sum -= value
   }
 };
-// 类似于组件中的data，数据源
 const state = {
   sum:1
 };
-// 类似于组件的计算属性，可在多个组件中复用的计算属性
-const getters = {
-  bigSum(state){
-    return state.sum * 10
-  }
-}
-
 // ---------
 
 // 在这里声明使用插件，而不在main.js中引用
@@ -43,6 +35,5 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   actions,
   mutations,
-  state,
-  getters
+  state
 });

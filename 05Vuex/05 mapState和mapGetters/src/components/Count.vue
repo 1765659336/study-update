@@ -7,15 +7,15 @@
       <option value="2">2</option>
       <option value="3">3</option>
     </select>
-    <button @click="increment(n)">+</button>
-    <button @click="decrement(n)">-</button>
-    <button @click="incrementOdd(n)">当前求和为奇数再加</button>
-    <button @click="incrementWait(n)">等一等再加</button>
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+    <button @click="incrementOdd">当前求和为奇数再加</button>
+    <button @click="incrementWait">等一等再加</button>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: "Count",
   data() {
@@ -40,25 +40,18 @@ export default {
     ...mapGetters(['bigSum'])
   },
   methods: {
-    /* increment() {
+    increment() {
 			this.$store.commit("INCREMENT",this.n)
     },
     decrement() {
       this.$store.commit("DECREMENT",this.n)
-    }, */
-
-    // 会自动接收页面中{{increment}}接收的参数，如果页面中不传，那么会接收到event事件参数
-    ...mapMutations({increment:'INCREMENT',decrement:'DECREMENT'}),
-
-    /* incrementOdd() {
+    },
+    incrementOdd() {
       this.$store.dispatch("incrementOdd", this.n);
     },
     incrementWait() {
       this.$store.dispatch("incrementWait", this.n);
-    } */
-    // ...mapActions({incrementOdd:'incrementOdd',incrementWait:'incrementWait'})
-    // 如果函数名和后面的通信参数相同可以使用数组
-    ...mapActions(['incrementOdd','incrementWait'])
+    }
   }
 };
 </script>
