@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>sessionStorage</title>
+</head>
+<body>
+  <h2>sessionStorage</h2>
+  <button onclick="saveData()">保存数据到sessionStorage</button>
+  <button onclick="readData()">读取sessionStorage的数据</button>
+  <button onclick="deleteData()">删除sessionStorage的数据</button>
+  <button onclick="deleteAllData()">清空sessionStorage的数据</button>
+  <script>
+    let p = {name:'张三',age:18}
+    function saveData(){
+      // 第二个参数会自动调用toString方法，将数据转换为字符串的形式，因此我们存储对象时，需要调用JSON.stringify()
+      sessionStorage.setItem('msg','hello')
+      sessionStorage.setItem('msg2',666)
+      sessionStorage.setItem('person',JSON.stringify(p))
+    }
+    function readData(){
+      console.log(sessionStorage.getItem('msg'));
+      console.log(sessionStorage.getItem('msg2'));
+      console.log(JSON.parse(sessionStorage.getItem('person')));
+    }
+    function deleteData(){
+      sessionStorage.removeItem('msg2')
+    }
+    function deleteAllData(){
+      sessionStorage.clear()
+    }
+  </script>
+</body>
+</html>

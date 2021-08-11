@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>localStorage</title>
+</head>
+<body>
+  <h2>localStorage</h2>
+  <button onclick="saveData()">保存数据到localStorage</button>
+  <button onclick="readData()">读取localStorage的数据</button>
+  <button onclick="deleteData()">删除localStorage的数据</button>
+  <button onclick="deleteAllData()">清空localStorage的数据</button>
+  <script>
+    let p = {name:'张三',age:18}
+    function saveData(){
+      // 第二个参数会自动调用toString方法，将数据转换为字符串的形式，因此我们存储对象时，需要调用JSON.stringify()
+      localStorage.setItem('msg','hello')
+      localStorage.setItem('msg2',666)
+      localStorage.setItem('person',JSON.stringify(p))
+    }
+    function readData(){
+      console.log(localStorage.getItem('msg'));
+      console.log(localStorage.getItem('msg2'));
+      console.log(JSON.parse(localStorage.getItem('person')));
+    }
+    function deleteData(){
+      localStorage.removeItem('msg2')
+    }
+    function deleteAllData(){
+      localStorage.clear()
+    }
+  </script>
+</body>
+</html>
