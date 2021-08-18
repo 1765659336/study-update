@@ -3,8 +3,8 @@ https://koa.bootcss.com/
 
 ## koa2的基本使用
 ### Koa2的安装
-npm init -y
-npm i koa --save
+`npm init -y`
+`npm i koa --save`
 
 ### 测试使用
 ```javascript
@@ -21,17 +21,21 @@ npm i koa --save
 
 ## koa2的脚手架
 ### 安装
-npm i -g koa-generator
+`npm i -g koa-generator`
+
 ### 创建项目
-koa2 myApp
+`koa2 myApp`
+
 ### 初始化项目
-cd myApp / npm install
+`cd myApp / npm install`
+
 ### 启动项目
-npm run dev 启动开发环境devDependencies下的nodemon
+`npm run dev `启动开发环境devDependencies下的nodemon
 
 ## koa-router后端路由中间件
 ### 安装
-npm install koa-router --save
+`npm install koa-router --save`
+
 ### 使用示范
 ```javascript
 const Koa = require('koa')
@@ -275,7 +279,8 @@ app.listen(3000)
 ```
 ### koa-json-error错误处理中间件
 #### 安装
-npm i koa-json-error --save
+`npm i koa-json-error --save`
+
 #### 使用示范
 ```javascript
 const Koa = require('koa')
@@ -320,7 +325,7 @@ app.listen(3000)
 
 ## 后端参数校验koa-parameter
 ### 安装
-npm i koa-parameter --save
+`npm i koa-parameter --save`
 ```javascript
 const Koa = require('koa')
 

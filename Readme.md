@@ -342,6 +342,8 @@ node_modules文件夹的问题：1、文件夹及文件过多过碎，当我们�
 
 package.json文件的作用：1、项目描述文件，记录了当前项目的信息，例如项目名称、版本、作者、GitHub地址，当前项目依赖了哪些第三方模块等，可以使用`npm init -y `快速生成，如果想自己填写项目的名称、版本、作者、GitHub地址，就不使用-y
 
+使用``npm run xxx`xxx代表scripts中的简写名称
+
 
 ![](image/Snipaste_2021-03-18_12-13-39.png)
 
@@ -1643,8 +1645,8 @@ https://koa.bootcss.com/
 
 ### Koa2的安装
 
-npm init -y
-npm i koa --save
+`npm init -y`
+`npm i koa --save`
 
 ### 测试使用
 
@@ -1664,25 +1666,25 @@ npm i koa --save
 
 ### 安装
 
-npm i -g koa-generator
+`npm i -g koa-generator`
 
 ### 创建项目
 
-koa2 myApp
+`koa2 myApp`
 
 ### 初始化项目
 
-cd myApp / npm install
+`cd myApp / npm install`
 
 ### 启动项目
 
-npm run dev 启动开发环境devDependencies下的nodemon
+`npm run dev` 启动开发环境devDependencies下的nodemon
 
 ## koa-router后端路由中间件
 
 ### 安装
 
-npm install koa-router --save
+`npm install koa-router --save`
 
 ### 使用示范
 
@@ -1940,7 +1942,7 @@ app.listen(3000)
 
 #### 安装
 
-npm i koa-json-error --save
+`npm i koa-json-error --save`
 
 #### 使用示范
 
@@ -1989,7 +1991,7 @@ app.listen(3000)
 
 ### 安装
 
-npm i koa-parameter --save
+`npm i koa-parameter --save`
 
 ```javascript
 const Koa = require('koa')
