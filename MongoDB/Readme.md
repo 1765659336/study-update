@@ -56,6 +56,8 @@ mongoose.connect('mongodb://localhost/first',{ useNewUrlParser: true, useUnified
 
 # 2、MongoDB增删改查操作
 
+！！！ 数据库相关的方法返回值都是一个promise对象，在函数中使用的时候需要使用await接收这个promise对象，并给这个函数添加async
+
 # 2、1创建集合
 
 # 2、2 创建文档
@@ -467,5 +469,4 @@ News.create({name: '哈哈哈',author: '60557e977c226e37b46ae84c'}).then(doc => 
 // 用populate查找对应作者的信息
 News.find({name: '哈哈哈'}).populate('author').then(doc => console.log(doc))
 ```
-
 
