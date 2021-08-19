@@ -1282,15 +1282,34 @@ art-template同时支持两种模板语法:标准语法和原始语法。
 
 引擎语法-输出.art
 
-```纯文本
-<!DOCTYPE html><html>  <head>    <meta charset="utf-8">    <title></title>  </head>  <body>    <!-- 标准语法 -->    <p>{{name}}</p>    <p>{{1 + 1}}</p>    <p>{{1+1 == 2? '相等':'不相等'}}</p>    <!-- 原始语法 -->    <p><%= name%></p>    <p><%= 1 + 1%></p>    <p><%=1+1==2? '相等':'不相等'%></p>   </body></html>
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <!-- 标准语法 -->
+    <p>{{ name }}</p>
+    <p>{{ 1 + 1 }}</p>
+    <p>{{ 1 + 1 == 2 ? "相等" : "不相等" }}</p>
+    <!-- 原始语法 -->
+    <p><%= name%></p>
+    <p><%= 1 + 1%></p>
+    <p><%=1+1==2? '相等':'不相等'%></p>
+  </body>
+</html>
 ```
 
 
 引擎语法-输出.js
 
 ```JavaScript
-const template = require('art-template');const path = require('path');const views = path.join(__dirname,'views','引擎语法-输出.art');// 第一个参数是模板路径 绝对路径,第二个是对象数据const html = template(views,{  name: '张三',  age: 20});console.log(html);
+const template = require("art-template");
+const path = require("path");
+// 第一个参数是模板路径 绝对路径,第二个是对象数据const html = template(views,{  name: '张三',  age: 20});console.log(html);
+const views = path.join(__dirname, "views", "引擎语法-输出.art"); 
 ```
 
 
@@ -1300,8 +1319,21 @@ const template = require('art-template');const path = require('path');const view
 
 引擎语法-原文输出.art
 
-```纯文本
-<!DOCTYPE html><html>  <head>    <meta charset="utf-8">    <title></title>  </head>  <body>    <!-- 标准语法 -->    <p>{{@content}}</p>    <!-- 原始语法 -->    <p><%- content%></p>  </body></html>
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <!-- 标准语法 -->
+    <p>{{@content}}</p>
+    <!-- 原始语法 -->
+    <p><%- content%></p>
+  </body>
+</html>
+
 ```
 
 
@@ -1320,7 +1352,7 @@ const template = require('art-template');const path = require('path');const view
 
 引擎语法-条件判断.art
 
-```纯文本
+```html
 {{if age > 18}}  年龄大于18{{else if age < 18}}  年龄小于18{{else}}  年龄不符合要求{{/if}}  <% if (age > 18) {%>  年龄大于18<%} else if (age < 18) {%>  年龄小于18<%} else {%>  年龄不符合要求<%}%>
 ```
 
@@ -1338,15 +1370,26 @@ const template = require('art-template');const path = require('path');const view
 
 引擎语法-循环.art
 
-```纯文本
-<ul>  {{each users}}    <li>      {{$value.name}}      {{$value.age}}      {{$value.sex}}    </li>  {{/each}}</ul><ul>  <% for(var i = 0; i < users.length; i++){%>    <li>      <%=users[i].name%>      <%=users[i].age%>      <%=users[i].sex%>    </li>  <%}%></ul>
+```html
+<ul>
+  {{each users}}
+  <li>{{ $value.name }} {{ $value.age }} {{ $value.sex }}</li>
+  {{/each}}
+</ul>
+<ul>
+  <% for(var i = 0; i < users.length; i++){%>
+  <li><%=users[i].name%> <%=users[i].age%> <%=users[i].sex%></li>
+  <%}%>
+</ul>
 ```
 
 
 引擎语法-循环.js
 
 ```JavaScript
-const template = require('art-template');const path = require('path');const views = path.join(__dirname,'views','引擎语法-循环.art')const html = template(views,{  users:[    {      name: '张三',      age: 18,      sex: '男'    },    {      name: '张三是',      age: 18,      sex: '男'    },    {      name: '张三饿',      age: 18,      sex: '男'    }  ]});console.log(html);
+const template = require('art-template');
+const path = require('path');const views = path.join(__dirname,'views','引擎语法-循环.art')
+const html = template(views,{  users:[    {      name: '张三',      age: 18,      sex: '男'    },    {      name: '张三是',      age: 18,      sex: '男'    },    {      name: '张三饿',      age: 18,      sex: '男'    }  ]});console.log(html);
 ```
 
 
@@ -1536,14 +1579,25 @@ const express = require('express');const fs = require('fs');// 系统模块util�
 #### 静态资源的访问
 
 ```JavaScript
-const express = require('express');const path = require('path');const app = express();// 实现静态资源访问功能app.use(express.static(path.join(__dirname,'public')))app.listen(80);console.log('服务器开启成功');
+const express = require('express');
+const path = require('path');
+const app = express();
+// 实现静态资源访问功能
+app.use(express.static(path.join(__dirname,'public')))
+app.listen(80);console.log('服务器开启成功');
 ```
 
 
 #### GET请求参数的获取
 
 ```JavaScript
-const express = require('express');const app = express();app.get('/index',(req,res) => {  // 返回的是对象  res.send(req.query);})app.listen(80);console.log('服务器开启成功');
+const express = require('express');
+const app = express();
+app.get('/index',(req,res) => {  
+    // 返回的是对象  
+    res.send(req.query);
+})
+app.listen(80);console.log('服务器开启成功');
 ```
 
 
@@ -1552,21 +1606,52 @@ const express = require('express');const app = express();app.get('/index',(req,r
 Express中接收post请求参数需要借助第三模块body-parser
 
 ```JavaScript
-const express = require('express');const bodyParser = require('body-parser');const app = express();// 拦截所有的请求/*{extended:false}使用queryString模块处理请求参数{extended:true}使用第三方模块qs处理请求参数*/app.use(bodyParser.urlencoded({extended:false}))app.post('/add',(req,res) => {  res.send(req.body);})app.listen(80);console.log('服务器开启成功');
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+// 拦截所有的请求
+/*{extended:false}使用queryString模块处理请求参数{extended:true}使用第三方模块qs处理请求参数*/
+app.use(bodyParser.urlencoded({extended:false}))
+app.post('/add',(req,res) => {  res.send(req.body)})
+app.listen(80);console.log('服务器开启成功');
 ```
 
 
 html
 
 ```html
-<!DOCTYPE html><html>  <head>    <meta charset="utf-8">    <title></title>  </head>  <body>    <form action="http://localhost:80/add" method="post">      <input type="text" name="username"  />      <input type="password" name="password"  />      <input type="submit" value="submit"/>    </form>  </body></html>
+<!DOCTYPE html>
+<html>  
+    <head>    
+        <meta charset="utf-8">    
+        <title></title>  
+    </head>  
+    <body>    
+        <form action="http://localhost:80/add" method="post">      
+            <input type="text" name="username"  />      
+            <input type="password" name="password"  />      
+            <input type="submit" value="submit"/>    
+        </form>  
+    </body>
+</html>
 ```
 
 
 #### app.use()传入一个函数然后调用
 
 ```JavaScript
-const express = require('express');const bodyParser = require('body-parser');const app = express();// 拦截所有的请求/*{extended:false}使用queryString模块处理请求参数{extended:true}使用第三方模块qs处理请求参数*/app.use(fn())function fn(){  return function (req,res,next) {    console.log(req.method);    next();  }}app.post('/add',(req,res) => {  res.send('ok');})app.listen(80);console.log('服务器开启成功');
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+// 拦截所有的请求
+/*{extended:false}使用queryString模块处理请求参数{extended:true}使用第三方模块qs处理请求参数*/
+app.use(fn())
+function fn(){  return function (req,res,next) {    
+    console.log(req.method);    
+    next();  
+}}
+app.post('/add',(req,res) => {  res.send('ok');})
+app.listen(80);console.log('服务器开启成功');
 ```
 
 
@@ -1575,7 +1660,12 @@ const express = require('express');const bodyParser = require('body-parser');con
 获取get请求参数的另外一种方式
 
 ```JavaScript
-const express = require('express');const app = express();app.get('/index/:id/:name/:age',(req,res) => {  // 接受post请求参数  res.send(req.params);})app.listen(80);console.log('服务器开启成功'); 
+const express = require('express');const app = express();app.get('/index/:id/:name/:age',(req,res) => {  
+    // 接受post请求参数  
+    res.send(req.params);
+})
+app.listen(80);
+console.log('服务器开启成功'); 
 ```
 
 
@@ -1584,14 +1674,35 @@ const express = require('express');const app = express();app.get('/index/:id/:na
 为了使art-template模板引擎能够更好的和Express框架配合,模板引擎官方在原art-template模板引擎的基础上封装了express- art-template.两个都需要下载
 
 ```JavaScript
-const express = require('express');const path = require('path');const app = express();// 1、告诉express框架使用什么模板引擎渲染什么后缀的模板文件app.engine('art',require('express-art-template'));// 2、告诉express框架模板存放的位置是什么app.set('views',path.join(__dirname,'views'));// 3、告诉express框架模板的默认后缀是什么app.set('view engine','art');app.get('/index',(req,res) => {  res.render('index',{    msg:'message'  })})app.listen(80);console.log('服务器开启成功'); 
+const express = require('express');
+const path = require('path');
+const app = express();
+// 1、告诉express框架使用什么模板引擎渲染什么后缀的模板文件
+app.engine('art',require('express-art-template'));
+// 2、告诉express框架模板存放的位置是什么
+app.set('views',path.join(__dirname,'views'));
+// 3、告诉express框架模板的默认后缀是什么
+app.set('view engine','art');
+app.get('/index',(req,res) => {  
+    res.render('index',{    msg:'message'  })
+})
+app.listen(80);console.log('服务器开启成功'); 
 ```
 
 
 index.art
 
 ```html
-<!DOCTYPE html><html>  <head>    <meta charset="utf-8">    <title></title>  </head>  <body>    {{msg}}  </body></html>
+<!DOCTYPE html>
+<html>  
+    <head>    
+        <meta charset="utf-8">    
+        <title></title>  
+    </head>  
+    <body>    
+        {{msg}}  
+    </body>
+</html>
 ```
 
 
@@ -1602,12 +1713,37 @@ index.art
 index2.art
 
 ```html
-<!DOCTYPE html><html>  <head>    <meta charset="utf-8">    <title></title>  </head>  <body>    {{msg}}    {{each user}}      <h1>{{$value}}</h1>    {{/each}}  </body></html>
+<!DOCTYPE html>
+<html>  
+    <head>    
+        <meta charset="utf-8">    
+        <title></title>  
+    </head>  
+    <body>    
+        {{msg}}    
+        {{each user}}      
+        <h1>{{$value}}</h1>    
+        {{/each}}  
+    </body>
+</html>
 ```
 
 
 ```JavaScript
-const express = require('express');const path = require('path');const app = express();// 1、告诉express框架使用什么模板引擎渲染什么后缀的模板文件app.engine('art',require('express-art-template'));// 2、告诉express框架模板存放的位置是什么app.set('views',path.join(__dirname,'views'));// 3、告诉express框架模板的默认后缀是什么app.set('view engine','art');app.locals.user = {  name: '刘德华',  age: 18}app.get('/index',(req,res) => {  res.render('index2',{    msg:'message'  })})app.listen(80);console.log('服务器开启成功'); 
+const express = require('express');
+const path = require('path');
+const app = express();
+// 1、告诉express框架使用什么模板引擎渲染什么后缀的模板文件
+app.engine('art',require('express-art-template'));
+// 2、告诉express框架模板存放的位置是什么
+app.set('views',path.join(__dirname,'views'));
+// 3、告诉express框架模板的默认后缀是什么
+app.set('view engine','art');
+app.locals.user = {  name: '刘德华',  age: 18}
+app.get('/index',(req,res) => {  
+    res.render('index2',{    msg:'message'  })})
+app.listen(80);
+console.log('服务器开启成功'); 
 ```
 
 
@@ -2065,5 +2201,111 @@ const cors = require('koa2-cors')
 ...
 // 这个中间件一定要在路由中间件之前执行
 app.use(cors())
+```
+
+## koa2操作cookie
+
+```javascript
+const Koa = require('koa')
+
+const bodyparser = require('koa-bodyparser')
+
+const app = new Koa()
+
+app.use(async ctx => {
+  // koa设置cookie
+  // set方法接收三个参数，属性名，属性值，配置项
+  ctx.cookies.set(
+    "Hello","NIHAO",{
+      domain:'127.0.0.1', // 写cookie所在的域名
+      path:'/',       // 写cookie所在的路径
+      maxAge:1000*60*60*24,   // cookie有效时长
+      expires:new Date('2021-10-01'), // cookie失效时间
+      httpOnly:false,  // 是否只用于http请求中获取
+      overwrite:false  // 是否允许重写
+    }
+  )
+  ctx.body = `${ctx.cookies.get('Hello')}`
+})
+
+
+// 使用use中间件,中间件的书写顺序很重要，这些封装好的中间件内部都调用了next方法
+app.use(bodyparser())
+
+app.listen(3000,() => {
+  console.log('http://localhost:3000');
+})
+```
+
+## 模板引擎ejs的使用
+
+### 安装
+
+`npm i ejs --save`
+
+`npm i koa-views --save`
+
+### 基本使用
+
+`/views/index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <h1>{{title}}</h1>
+  </body>
+</html>
+```
+
+`app.js`
+
+```javascript
+const Koa = require('koa')
+const views = require('koa-view')
+const path = require('path')
+const app = new Koa()
+
+app.use(views(path.join(__dirname,'./views'),{
+  extension:'ejs'
+}))
+
+app.use(async ctx => {
+  let title = 'Hello world'
+  // 通过模板引擎传递参数给页面
+  await ctx.render('index',{title})
+})
+
+app.listen(3000,() => {
+  console.log('http://localhost:3000');
+})
+```
+
+## koa-static静态资源访问
+
+### 安装	
+
+`npm i koa-static --save`
+
+### 基本使用
+
+```javascript
+const Koa = require('koa')
+const path = require('path')
+const static = require('koa-static')
+const app = new Koa()
+
+// 在浏览器输入localhost:3000+资源文件名就可以访问到了
+app.use(static(path.join(__dirname,'./static')))
+
+app.listen(3000,() => {
+  console.log('http://localhost:3000');
+})
 ```
 
