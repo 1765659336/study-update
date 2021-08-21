@@ -177,3 +177,367 @@ byte b3 = (byte) (b1 + b2);
 
  `boolean类型不能与其他基本数据类型相互转换。`
 
+## 运算符和表达式
+
+运算符：对常量或者变量进行操作的符号
+
+表达式：用运算符把常量或者变量连接起来符合java语法的式子就可以称为表达式
+
+`加+`、`减-`、`乘*`、`除/`、`取余%`
+
+`整数操作只能得到整数，要想得到小数，必须有浮点数参与运算。`
+
+### 字符的“+”操作
+
+`char类型参与算术运算，使用的是计算机底层对应的十进制数值`。需要我们记住三个字符对应的数值：
+
+`'a' -- 97`a-z是连续的，所以'b'对应的数值是98，'c'是99，依次递加
+
+`'A' -- 65` A-Z是连续的，所以'B'对应的数值是66，'C'是67，依次递加
+
+`0' -- 48` 0-9是连续的，所以'1'对应的数值是49，'2'是50，依次递加
+
+`算术表达式中包含不同的基本数据类型的值的时候，整个算术表达式的类型会自动进行提升。`
+
+`byte类型，short类型和char类型将被提升到int类型，不管是否有其他类型参与运算。`
+
+`整个表达式的类型自动提升到与表达式中最高等级的操作数相同的类型`
+
+### 字符串的“+”操作
+
+`在”+”操作中，如果出现了字符串，就是连接运算符`
+
+`当连续进行“+”操作时，从左到右逐个执行。`
+
+```java
+System.out.println(1 + 2 + "itheima" + 3 + 4); // 输出：3itheima34 
+// 可以使用小括号改变运算的优先级 
+System.out.println(1 + 2 + "itheima" + (3 + 4)); // 输出：3itheima7
+```
+
+### 赋值运算符
+
+`等于=、加后赋值+=、减后赋值-=、乘后赋值*=、除后赋值/=、取余后赋值%=`
+
+`扩展的赋值运算符隐含了强制类型转换。`
+
+### 自增自减运算符
+
+++和-- 既可以放在变量的后边，也可以放在变量的前边。
+
+单独使用的时候， ++和-- 无论是放在变量的前边还是后边，结果是一样的。
+
+参与操作的时候，如果放在变量的后边，先拿变量参与操作，后拿变量做++或者--。
+
+参与操作的时候，如果放在变量的前边，先拿变量做++或者--，后拿变量参与操作。
+
+```java
+int i = 10; 
+i++; 
+// 单独使用 
+System.out.println("i:" + i); // i:11 int j = 10; ++j; 
+// 单独使用 
+System.out.println("j:" + j); // j:11 int x = 10; int y = x++; 
+// 赋值运算，++在后边，所以是使用x原来的值赋值给y，x本身自增1 
+System.out.println("x:" + x + ", y:" + y); // x:11，y:10 int m = 10; int n = ++m; 
+// 赋值运算，++在前边，所以是使用m自增后的值赋值给n，m本身自增1 
+System.out.println("m:" + m + ", m:" + m); // m:11，m:11
+```
+
+### 关系运算符
+
+关系运算符有6种关系，分别为`小于<`、`小于等于<=`、`大于>`、`等于==`、`大于等于>=`、`不等于!=`。
+
+关系运算符的结果都是boolean类型，要么是true，要么是false。
+
+### 逻辑运算符
+
+`&与`、`|或`、`^异或`、`！非`
+
+a^b ab相同为false、不相同为true
+
+### 短路逻辑运算符
+
+&& 短路与 作用和&相同，但是有短路效果
+
+|| 短路或 作用和|相同，但是有短路效果
+
+###  三元运算符
+
+```java
+关系表达式 ? 表达式1 : 表达式2;
+```
+
+## 流程控制
+
+### 顺序结构
+
+顺序结构是程序中最简单最基本的流程控制，没有特定的语法结构，按照代码的先后顺序
+
+### 分支结构
+
+#### if语句
+
+`if(){}`
+
+`if(){...}else{...}`
+
+`if(){...}else if(){...}else{...}`
+
+#### switch语句
+
+```java
+switch (表达式) { 
+    case 1: 语句体1; break; 
+    case 2: 语句体2; break; 
+        ... 
+    default: 语句体n+1; break; 
+}
+```
+
+### 循环结构
+
+#### for循环
+
+```java
+for (初始化语句;条件判断语句;条件控制语句) { 
+	循环体语句; 
+}
+```
+
+#### while循环
+
+```java
+while (条件判断语句) { 
+    循环体语句; 条件控制语句; 
+}
+```
+
+#### do...while循环结构
+
+```java
+do {
+    循环体语句; 
+    条件控制语句;
+}while(条件判断语句);
+```
+
+#### 死循环（无限循环）的三种格式
+
+1. for(;;){}
+
+2. while(true){}
+
+3. do {} while(true);
+
+####  跳转控制语句
+
+跳转控制语句`（break）跳出循环，结束循环`
+
+跳转控制语句`（continue）跳过本次循环，继续下次循环`
+
+`注意： continue只能在循环中进行使用！`
+
+## 数组
+
+### 数组定义
+
+```java
+int[] arr; double[] arr; char[] arr;
+```
+
+```java
+int arr[]; double arr[]; char arr[];
+```
+
+### 动态初始化
+
+数组动态初始化就是只给定数组的长度，`由系统给出默认初始化值`
+
+```java
+int[] arr = new int[3];
+```
+
+### 访问数组元素格式
+
+``数组名[索引]; `
+
+### 静态初始化
+
+`在创建数组时，直接将元素确定`
+
+#### 完整版格式
+
+`数据类型[] 数组名 = new 数据类型[]{元素1,元素2,...}; `
+
+#### 简化版格式
+
+`数据类型[] 数组名 = {元素1,元素2,...}; `
+
+## 方法
+
+### 无参数的方法定义格式：
+
+```java
+public static void method(){ 
+    // 方法体; 
+}
+```
+
+### 调用格式：
+
+```java
+method();
+```
+
+`方法必须先定义，后调用，否则程序将报错`
+
+### 带参数的方法定义格式:
+
+```java
+public static void isEvenNumber(int number){ ... }
+public static void getMax(int num1, int num2){ ... }
+```
+
+`方法定义时，参数中的数据类型与变量名都不能缺少，缺少任意一个程序将报错`
+
+### 调用格式：
+
+````java
+isEvenNumber(10);
+getMax(10,20);
+````
+
+### 带返回值方法定义格式：
+
+```java
+public static boolean isEvenNumber( int number ) { 
+    return true ; 
+}
+public static int getMax( int a, int b ) { 
+    return 100 ; 
+}
+```
+
+`方法定义时return后面的返回值与方法定义上的数据类型要匹配，否则程序将报错`
+
+### 方法的注意事项
+
+``方法不能嵌套定义`
+
+```java
+public class MethodDemo { 
+    public static void main(String[] args) { }
+    public static void methodOne() { 
+        public static void methodTwo() { 
+            // 这里会引发编译错误!!! 
+        } 
+    } 
+}
+```
+
+`void表示无返回值，可以省略return，也可以单独的书写return，后面不加数据`
+
+### 方法重载
+
+`多个方法在同一个类中、具有相同的方法名、形参类型不同或者数量不同`
+
+```java
+public class MethodDemo { 
+    public static void fn(int a) { 
+        //方法体 
+    }
+    public static int fn(double a) { 
+        //方法体 
+    } 
+}
+public class MethodDemo { 
+    public static float fn(int a) { 
+        //方法体 
+    }
+    public static int fn(int a , int b) { 
+        //方法体 
+    } 
+}
+```
+
+```java
+public class MethodTest { 
+    public static void main(String[] args) { 
+        //调用方法 
+        System.out.println(compare(10, 20)); 
+        System.out.println(compare((byte) 10, (byte) 20)); System.out.println(compare((short) 10, (short) 20)); 
+        System.out.println(compare(10L, 20L)); }
+    //int 
+    public static boolean compare(int a, int b) { 
+        System.out.println("int"); 
+        return a == b; 
+    }
+    //byte 
+    public static boolean compare(byte a, byte b) { 
+        System.out.println("byte"); 
+        return a == b; 
+    }
+    //short 
+    public static boolean compare(short a, short b) { 
+        System.out.println("short"); 
+        return a == b; 
+    }
+    //long 
+    public static boolean compare(long a, long b) { 
+        System.out.println("long"); 
+        return a == b; 
+    } 
+}
+```
+
+### 方法的参数传递
+
+####  方法参数传递基本类型
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        int number = 100;
+        System.out.println("调用change方法前：" + number);
+        change(number);
+        System.out.println("调用change方法后：" + number);
+    }
+
+    public static void change(int number) {
+        number = 200;
+    }
+}
+```
+
+```
+调用change方法前：100
+调用change方法后：100
+```
+
+`基本数据类型的参数，形式参数的改变，不影响实际参数`
+
+#### 方法参数传递引用类型
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        int[] arr = {10, 20, 30};
+        System.out.println("调用change方法前：" + arr[1]);
+        change(arr);
+        System.out.println("调用change方法后：" + arr[1]);
+    }
+
+    public static void change(int[] arr) {
+        arr[1] = 200;
+    }
+}
+```
+
+````
+调用change方法前：20
+调用change方法后：200
+````
+
+`对于引用类型的参数，形式参数的改变，影响实际参数的值`
+
