@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// 1、Object.is 比较两个数是否相等
+			console.log(Object.is(100,100));//true
+			console.log(Object.is(NaN,NaN));//true
+			console.log(NaN === NaN);//false,NaN使用===和任何比较都是false
+			
+			
+			// 2、Object.assign 合并对象
+			const obj1 = {
+				a:1,
+				b:2,
+				c:3
+			}
+			
+			const obj2 = {
+				a:2,
+				b:3,
+				d:4
+			}
+			
+			console.log(Object.assign(obj1,obj2));//不冲突都保留，冲突的后面的值覆盖前面的值
+			
+			
+			
+			// 3、Object.getPrototypeof Object.setPrototypeof 设置获取原型对象
+			// 原型对象只能是一个对象，当传入多个对象时，会合并对象，类似于对象合并之后再赋值
+			console.log(Object.setPrototypeOf(obj1,obj2));
+			console.log(Object.getPrototypeOf(obj1));
+		</script>
+	</body>
+</html>

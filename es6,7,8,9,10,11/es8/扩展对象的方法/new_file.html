@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			const obj = {
+				name: '804-3',
+				people: ['liujie','dengcheng','wangwei','songquan'],
+				age: [18,18,18,18]
+			}
+			
+			// 1 获取对象的所有键名,返回一个数组
+			console.log(Object.keys(obj));
+			
+			// 2 获取对象所有的属性值，返回一个数组
+			console.log(Object.values(obj));
+			
+			// 3 entries 以二维数组的形式返回对象的属性和属性值
+			console.log(Object.entries(obj));
+			
+			// 4 对象属性的描述对象
+			console.log(Object.getOwnPropertyDescriptor(obj));
+			const obj2 = Object.create(null,{
+				name: {
+					value: 'ds',
+					// 是否可写，修改
+					writable: false,
+					// 是否可删除
+					configurable: false,
+					// 是否可枚举
+					enumerable: true
+				}
+			});
+			
+		</script>
+	</body>
+</html>

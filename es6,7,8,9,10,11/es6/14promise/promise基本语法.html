@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// promise用来封装异步操作，解决回调地狱的问题
+			// 实例化promise实例
+			const p = new Promise(function(resolve,reject){
+				// // 1、获取到数据，调用resolve方法，改变p的状态从初始化改为成功
+				// let data = '数据库中的数据';
+				// resolve(data);
+				
+				// 2、获取数据失败
+				let err = '数据库读取失败';
+				reject(err);
+			});
+			
+			// then方法接受两个函数参数，第一个函数是promise实例的状态为成功时调用的，第二个函数是失败时调用的
+			p.then(function(value){
+				console.log(value);
+			},function(reason){
+				console.log(reason);
+			})
+		</script>
+	</body>
+</html>

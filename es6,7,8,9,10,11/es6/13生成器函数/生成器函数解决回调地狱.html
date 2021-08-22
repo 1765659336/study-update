@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// 异步任务，回调地狱
+			// setTimeout(() => {
+			// 	console.log(111);
+			// 	setTimeout(() => {
+			// 		console.log(222);
+			// 		setTimeout(() => {
+			// 			console.log(333);
+			// 		},3000)
+			// 	},2000)
+			// },1000)
+			function fn1(){
+				setTimeout(() => {
+					console.log(111);
+					iterator.next();
+				},1000)
+			}
+			function fn2(){
+				setTimeout(() => {
+					console.log(222);
+					iterator.next();
+				},2000)
+			}
+			function fn3(){
+				setTimeout(() => {
+					console.log(333);
+					iterator.next();
+				},3000)
+			}
+			function * fn(){
+				yield fn1();
+				yield fn2();
+				yield fn3();
+			}
+			
+			let iterator = fn();
+			iterator.next();
+		</script>
+	</body>
+</html>

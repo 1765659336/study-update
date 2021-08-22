@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// flat方法将数组降维
+			let arr1 = [1,2,[3,4]]
+			console.log(arr1.flat());
+			let arr2 = [1,2,[3,4,[5,6]]];
+			// 参数是深度
+			console.log(arr2.flat(2));
+			
+			// 参数是回调函数,循环遍历数组的所有值
+			console.log(arr2.flatMap(item => item));
+		</script>
+	</body>
+</html>

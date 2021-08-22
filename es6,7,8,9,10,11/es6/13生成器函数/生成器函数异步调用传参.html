@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function getname(){
+				setTimeout(() => {
+					let name = 'liujie';
+					iterator.next(name);
+				},1000)
+			}
+			
+			function getdata(){
+				setTimeout(() => {
+					let data = 'data';
+					iterator.next(data);
+				},2000)
+			}
+			
+			function gettime(){
+				setTimeout(() => {
+					let time = 'time';
+					iterator.next(time);
+				},3000)
+			}
+			
+			function * fn(){
+				getname();
+				let one = yield;
+				console.log(one);
+				getdata();
+				let two = yield;
+				console.log(two);
+				gettime();
+				let three = yield;
+				console.log(three);
+			}
+			
+			let iterator = fn();
+			iterator.next();
+		</script>
+	</body>
+</html>

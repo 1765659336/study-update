@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			let obj = {
+				arr: ['liujie','dengcheng','wangwei','songquan'],
+				[Symbol.iterator](){
+					let index = 0;
+					return {
+						next: () => {
+							if(index < this.arr.length){
+								index++;
+								return  {value:this.arr[index - 1],done:false}
+							}else {
+								return {value:undefined,done:true}
+							}
+							return
+						}
+					}
+				}
+			}
+			
+			for(let i of obj){
+				console.log(i);
+			}
+		</script>
+	</body>
+</html>

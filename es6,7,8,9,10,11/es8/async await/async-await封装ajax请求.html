@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function req(url){
+				return new Promise(function(resolve,reject){
+					const xhr = new XMLHttpRequest();
+					xhr.open('GET',url);
+					xhr.send();
+					xhr.onreadystatechange = function(){
+						if(xhr.readyState === 4){
+							if(xhr.status >= 200 && xhr.status < 300){
+								resolve(xhr.response);
+							}else{
+								reject(xhr.status);
+							}
+						}
+					}
+				})
+			}
+			
+			async function getajax(){
+				let result = await req('https://api.apiopen.top/getJoke');
+				console.log(result);
+			}
+			
+			getajax();
+		</script>
+	</body>
+</html>

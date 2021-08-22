@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button type="button">btn</button>
+    <script>
+      var that;
+      class Father {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          that = this;
+          this.btn = document.querySelector('button');
+          this.btn.onclick = this.print;
+        }
+
+        sum() {
+          return this.x + this.y;
+        }
+
+        print() {
+          // 这个函数被btn的点击事件监听，调用它的是btn对象，所以这个函数内部的this指向btn
+          console.log(this);//<button type="button">btn</button>
+          console.log(that.sum());
+        }
+      }
+      
+      var f = new Father(1,2);
+      console.log(f.btn);//<button type="button">btn</button>
+      console.log(typeof f.btn);//object
+    </script>
+  </body>
+</html>

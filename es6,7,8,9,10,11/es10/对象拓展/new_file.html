@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// Object.fromEntries接收二维数组（奇数项是键，偶数项是值，只能有两位）和Map,转化为对象
+			let arr = [[1,2],[2,4],[3,6,4,8]]
+			let result = Object.fromEntries(arr);
+			console.log(result);
+			
+			const m = new Map();
+			m.set('name','liujie');
+			let result1 = Object.fromEntries(m);
+			console.log(result1);
+		</script>
+	</body>
+</html>

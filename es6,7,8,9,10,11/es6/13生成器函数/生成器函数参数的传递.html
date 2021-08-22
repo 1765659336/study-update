@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function * fn(arg){
+				console.log(arg);
+				let one = yield 1;
+				console.log(one);
+				let two = yield 2;
+				console.log(two);
+				let three = yield 3;
+				console.log(three);
+			}
+			
+			// 执行获取迭代器对象
+			let iterator = fn('AAA');
+			iterator.next();
+			// 从第二次开始next的参数会成为yield的返回值
+			iterator.next('BBB');
+			iterator.next('CCC');
+			iterator.next('DDD');
+		</script>
+	</body>
+</html>

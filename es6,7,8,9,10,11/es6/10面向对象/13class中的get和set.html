@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			class Person {
+				constructor(name,age) {
+				    this.name = name;
+					this.age = age;
+				}
+				// 给getAge属性绑定一个get,当请求这个属性时，会自动调用函数，返回return后面的结果
+				get getName(){
+					return this.name;
+				}
+				
+				// 给setAge属性绑定一个set,当设置这个属性时，会自动调用函数，返回修改之后的结果,必须要传入一个参数
+				set setAge(age){
+					if(age <= this.age){
+						return '没有长大'
+					}else {
+						this.age = age;
+						return this.age;
+					}
+				}
+			}
+			
+			const p = new Person('liujie',18);
+			console.log(p.getName);
+			console.log(p.setAge = 20);
+			console.log(p.age);
+		</script>
+	</body>
+</html>

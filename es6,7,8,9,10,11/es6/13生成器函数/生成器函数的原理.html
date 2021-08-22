@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// 声明
+			function * fn() {
+				// yield类似于断点
+				console.log(111);
+				yield '第一段'
+				console.log(222);
+				yield '第二段'
+				console.log(333);
+				yield '第三段'
+				console.log(444);
+			}
+			// 调用
+			let iterator = fn();
+			// 生成器函数每次调用的时候都会生成一个新的支持迭代器的对象
+			// 每次调用next会执行生成器函数中yield段代码，并且返回包含yield的值的对象{value: 'yieldValue',done: false}或者{value:undefined,done:true}
+			console.log(iterator.next());
+			console.log(iterator.next());
+			console.log(iterator.next());
+			console.log(iterator.next());
+			// 生成器函数是可以使用迭代器，迭代器相当于循环调用next执行到yield位置并返回yield的value值
+			for(let i of fn()){
+				console.log(i);
+			}
+		</script>
+	</body>
+</html>
