@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn1">创建div1</button>
+    <button id="btn2">创建div2</button>
+    <script>
+      // 封装单例模式功能方法
+      var single = function(fn) {
+        var lock;
+        return function() {
+          console.log(lock || (lock = fn.apply(this)));
+          // 妙——————————————————————————————————
+          return lock || (lock = fn.apply(this));
+          // ————————————————————————————————————
+        };
+      };
+
+      // 创建div1的方法
+      var createDiv1 = function() {
+        var div = document.createElement("div");
+        div.innerHTML = "我是div1";
+        div.style.display = "none";
+        document.body.appendChild(div);
+        return div;
+      };
+
+      // 创建div2的方法
+      var createDiv2 = function() {
+        var div = document.createElement("div");
+        div.innerHTML = "我是div2";
+        div.style.display = "none";
+        document.body.appendChild(div);
+        return div;
+      };
+      
+      // 单例模式创建div1的方法
+      var singleCreateDiv1 = single(createDiv1)
+      // 单例模式创建div2的方法
+      var singleCreateDiv2 = single(createDiv2)
+
+      document.getElementById('btn1').onclick = function(){
+        var result = singleCreateDiv1()
+        result.style.display = 'block'
+      }
+
+      document.getElementById('btn2').onclick = function(){
+        var result = singleCreateDiv2()
+        result.style.display = 'block'
+      }
+    </script>
+  </body>
+</html>

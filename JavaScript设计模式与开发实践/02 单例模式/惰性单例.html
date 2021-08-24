@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button id="btn">创建一个登录窗口</button>
+  <script>
+    // 使用立即执行函数与return形成一个闭包，将判断条件变量与函数处于同一作用域，不需要再在全局作用域下创建一个判断变量污染命名空间，妙啊！！！
+    var createLogin = (function(){
+      var div
+      return function(){
+        if(!div){
+          div = document.createElement('div')
+          div.innerHTML = '<h1>我是登录弹窗</h1>'
+          div.style.display = 'none'
+          document.body.appendChild(div)
+        }
+
+        return div
+      }
+    })()
+
+    document.getElementById('btn').onclick = function(){
+      var Login = createLogin()
+      Login.style.display = 'block'
+    }
+  </script>
+</body>
+</html>

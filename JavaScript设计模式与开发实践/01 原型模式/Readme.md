@@ -10,7 +10,7 @@
 ## 实现原型模式的关键
 
 ```javascript
-// 关键是对象是否提供clone方法，ECMAScript提供了Object.create()来克隆对象
+// 关键是对象是否提供clone方法，ECMAScript5提供了Object.create()来克隆对象
 const PeoPle = function(){
   this.name;
   this.age;
@@ -128,7 +128,7 @@ console.log(zhangsan.name,zhangsan.money);//张三 999999
 
 `可以通过Object.create(null)创建一个没有原型的对象`
 
-`ES6Class语法其背后还是使用的原型链机制`
+`ES6class语法其背后还是使用的原型链机制`
 
 ```javascript
 /* ES6的背后依然还是用的原型链来创建对象 */
