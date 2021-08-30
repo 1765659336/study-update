@@ -1,59 +1,3 @@
-# Vue3快速上手
-
-<img src="https://user-images.githubusercontent.com/499550/93624428-53932780-f9ae-11ea-8d16-af949e16a09f.png" style="width:200px" />
-
-
-
-## 1.Vue3简介
-
-- 2020年9月18日，Vue.js发布3.0版本，代号：One Piece（海贼王）
-- 耗时2年多、[2600+次提交](https://github.com/vuejs/vue-next/graphs/commit-activity)、[30+个RFC](https://github.com/vuejs/rfcs/tree/master/active-rfcs)、[600+次PR](https://github.com/vuejs/vue-next/pulls?q=is%3Apr+is%3Amerged+-author%3Aapp%2Fdependabot-preview+)、[99位贡献者](https://github.com/vuejs/vue-next/graphs/contributors) 
-- github上的tags地址：https://github.com/vuejs/vue-next/releases/tag/v3.0.0
-
-## 2.Vue3带来了什么
-
-### 1.性能的提升
-
-- 打包大小减少41%
-
-- 初次渲染快55%, 更新渲染快133%
-
-- 内存减少54%
-
-  ......
-
-### 2.源码的升级
-
-- 使用Proxy代替defineProperty实现响应式
-
-- 重写虚拟DOM的实现和Tree-Shaking
-
-  ......
-
-### 3.拥抱TypeScript
-
-- Vue3可以更好的支持TypeScript
-
-### 4.新的特性
-
-1. Composition API（组合API）
-
-   - setup配置
-   - ref与reactive
-   - watch与watchEffect
-   - provide与inject
-   - ......
-2. 新的内置组件
-   - Fragment 
-   - Teleport
-   - Suspense
-3. 其他改变
-
-   - 新的生命周期钩子
-   - data 选项应始终被声明为一个函数
-   - 移除keyCode支持作为 v-on 的修饰符
-   - ......
-
 # 一、创建Vue3.0工程
 
 ## 1.使用 vue-cli 创建
@@ -106,35 +50,176 @@ npm run dev
 
 1. 理解：Vue3.0中一个新的配置项，值为一个函数。
 2. setup是所有<strong style="color:#DD5145">Composition API（组合API）</strong><i style="color:gray;font-weight:bold">“ 表演的舞台 ”</i>。
-4. 组件中所用到的：数据、方法等等，均要配置在setup中。
+4. `组件中所用到的：数据、方法等等，均要配置在setup中`。
 5. setup函数的两种返回值：
-   1. 若返回一个对象，则对象中的属性、方法, 在模板中均可以直接使用。（重点关注！）
+   1. `若返回一个对象，则对象中的属性、方法, 在模板中均可以直接使用。`（重点关注！）
    2. <span style="color:#aad">若返回一个渲染函数：则可以自定义渲染内容。（了解）</span>
 6. 注意点：
-   1. 尽量不要与Vue2.x配置混用
+   1. `尽量不要与Vue2.x配置混用`
       - Vue2.x配置（data、methos、computed...）中<strong style="color:#DD5145">可以访问到</strong>setup中的属性、方法。
       - 但在setup中<strong style="color:#DD5145">不能访问到</strong>Vue2.x配置（data、methos、computed...）。
       - 如果有重名, setup优先。
-   2. setup不能是一个async函数，因为返回值不再是return的对象, 而是promise, 模板看不到return对象中的属性。（后期也可以返回一个Promise实例，但需要Suspense和异步组件的配合）
+   2. `setup不能是一个async函数`，因为返回值不再是return的对象, 而是promise, 模板看不到return对象中的属性。（后期也可以返回一个Promise实例，但需要Suspense和异步组件的配合）
+
+```html
+<template>
+  <h1>一个人的信息</h1>
+  <h2>姓名：{{name}}</h2>
+  <h2>年龄: {{age}}</h2>
+  <button @click="sayHello">说你好</button>
+</template>
+
+<script>
+// import { h } from "vue";
+
+export default {
+  name: "App",
+  // 无响应式的写法
+  setup() {
+    let name = "张三";
+    let age = 18;
+
+    function sayHello() {
+      alert(`我叫${name},我${age}岁了，你好啊`);
+    }
+
+    // 1、返回一个对象（常用）
+    return {
+      name,
+      age,
+      sayHello
+    };
+    /* 
+    // 2、返回一个函数
+    return () => h('h1','你好') */
+  }
+};
+</script>
+
+<style>
+</style>
+
+```
+
+
 
 ##  2.ref函数
 
 - 作用: 定义一个响应式的数据
 - 语法: ```const xxx = ref(initValue)``` 
-  - 创建一个包含响应式数据的<strong style="color:#DD5145">引用对象（reference对象，简称ref对象）</strong>。
+  - 创建一个包含响应式数据的`引用对象（reference对象，简称ref对象）。`
   - JS中操作数据： ```xxx.value```
   - 模板中读取数据: 不需要.value，直接：```<div>{{xxx}}</div>```
 - 备注：
   - 接收的数据可以是：基本类型、也可以是对象类型。
   - 基本类型的数据：响应式依然是靠``Object.defineProperty()``的```get```与```set```完成的。
-  - 对象类型的数据：内部 <i style="color:gray;font-weight:bold">“ 求助 ”</i> 了Vue3.0中的一个新函数—— ```reactive```函数。
+  - 对象类型的数据：对象的属性内部 <i style="color:gray;font-weight:bold">“ 求助 ”</i> 了Vue3.0中的一个新函数—— ```reactive```函数。
+
+```html
+<template>
+  <h1>一个人的信息</h1>
+  <h2>姓名：{{name}}</h2>
+  <h2>年龄: {{age}}</h2>
+  <button @click="change">改变人的信息</button>
+  <h2>职业：{{obj.type}}</h2>
+  <h2>工资：{{obj.salary}}</h2>
+  <button @click="clg">输出职业与工资</button>
+</template>
+
+<script>
+import {ref} from 'vue';
+export default {
+  name: "App",
+  setup() {
+    let name = ref("张三");
+    let age = ref(18);
+    let obj = ref({
+      type: 'UI',
+      salary: '40k'
+    })
+
+    function change() {
+      name.value = '李四'
+      age.value = 20
+    }
+
+    function clg() {
+      console.log(obj.value.type,obj.value.salary)
+    }
+
+    return {
+      name,
+      age,
+      change,
+      obj,
+      clg
+    };
+  }
+};
+</script>
+
+<style>
+</style>
+
+```
+
+
 
 ## 3.reactive函数
 
-- 作用: 定义一个<strong style="color:#DD5145">对象类型</strong>的响应式数据（基本类型不要用它，要用```ref```函数）
-- 语法：```const 代理对象= reactive(源对象)```接收一个对象（或数组），返回一个<strong style="color:#DD5145">代理对象（Proxy的实例对象，简称proxy对象）</strong>
+- 作用: 定义一个`对象类型的响应式数据`（基本类型不要用它，要用```ref```函数）
+- 语法：```const 代理对象= reactive(源对象)```接收一个对象`（或数组）`，返回一个代理对象（Proxy的实例对象，简称`proxy对象`)
+- 取值对象直接通过.属性名获取，数组通过下标获取
 - reactive定义的响应式数据是“深层次的”。
-- 内部基于 ES6 的 Proxy 实现，通过代理对象操作源对象内部数据进行操作。
+- `内部基于 ES6 的 Proxy 实现`，通过代理对象操作源对象内部数据进行操作。
+
+```html
+<template>
+  <h1>一个人的信息</h1>
+  <h2>姓名：{{p.name}}</h2>
+  <h2>年龄: {{p.age}}</h2>
+  <button @click="change">改变人的信息</button>
+  <h2>职业：{{p.obj.type}}</h2>
+  <h2>工资：{{p.obj.salary}}</h2>
+</template>
+
+<script>
+import { reactive } from "vue";
+export default {
+  name: "App",
+  setup() {
+    let p = reactive({
+      name: "张三",
+      age: 18,
+      obj: {
+        type: "UI",
+        salary: "40k"
+      }
+    });
+
+    function change() {
+      p.name = "李四";
+      p.age = 20;
+      p.obj.type = "前端";
+      p.obj.salary = "20k"
+    }
+
+    return {
+      p,
+      change
+    };
+  }
+};
+</script>
+
+<style>
+</style>
+
+```
+
+
+
+
 
 ## 4.Vue3.0中的响应式原理
 
@@ -198,17 +283,21 @@ npm run dev
    -  ref定义的数据：操作数据<strong style="color:#DD5145">需要</strong>```.value```，读取数据时模板中直接读取<strong style="color:#DD5145">不需要</strong>```.value```。
    -  reactive定义的数据：操作数据与读取数据：<strong style="color:#DD5145">均不需要</strong>```.value```。
 
+
+
 ## 6.setup的两个注意点
 
-- setup执行的时机
-  - 在beforeCreate之前执行一次，this是undefined。
+- `setup执行的时机`
+  - 在beforeCreate之前执行一次，`this是undefined`。`所以不要在setup中使用this`
   
 - setup的参数
-  - props：值为对象，包含：组件外部传递过来，且组件内部声明接收了的属性。
+  - props：值为对象，包含：`组件外部传递过来，且组件内部setup()我外面声明props:[]接收了的属性`。
   - context：上下文对象
-    - attrs: 值为对象，包含：组件外部传递过来，但没有在props配置中声明的属性, 相当于 ```this.$attrs```。
-    - slots: 收到的插槽内容, 相当于 ```this.$slots```。
-    - emit: 分发自定义事件的函数, 相当于 ```this.$emit```。
+    - attrs: 值为对象，包含：组件外部传递过来，但没有在props配置中声明的属性, 相当于 ```this.$attrs```。`捡漏，捡组件props没有接收的值`
+    - slots: 收到的插槽内容`虚拟DOM节点对象`, 相当于 ```this.$slots```。
+    - emit: 分发自定义事件的函数, 相当于 ```this.$emit```。`记得在setup中使用emits:[]接收到外部传入的自定义事件`
+
+
 
 
 ## 7.计算属性与监视
