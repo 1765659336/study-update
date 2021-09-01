@@ -6,7 +6,7 @@ const arr = [
 
 const result = arr.reduce((total, item) => {
   item.age <= 20 && total++
-  // 循环遍历完了之后才会执行return，一般用来累加、统计数组
+  // 将这一次循环的值return给下一次循环初始值，一般用来累加、统计数组
   return total
 }, 0);
 
