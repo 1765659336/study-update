@@ -18,8 +18,9 @@
 		},
 		methods: {
 			btn(){
-				console.log(this.$refs);
-				console.log(document.getElementById('school'));
+				console.log(this.$refs.img);//获取原生页面标签的真实DOM
+				console.log(this.$refs.school);//VC
+				console.log(document.getElementById('school'));//获取组件的真实DOM
 			}
 		},
 	}

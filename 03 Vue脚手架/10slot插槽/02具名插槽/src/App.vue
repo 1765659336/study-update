@@ -25,8 +25,6 @@
 				<div class="foot">
 					<a href="http://www.atguigu.com">经典</a>
 					<a href="http://www.atguigu.com">热门</a>
-					<a href="http://www.atguigu.com">推荐</a>
-				</div>
 				<h4>欢迎前来观影</h4>
 			</template>
 		</Category>

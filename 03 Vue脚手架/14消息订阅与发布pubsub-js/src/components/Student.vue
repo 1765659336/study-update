@@ -24,7 +24,7 @@ export default {
     //   console.log(this.name + '在' + value + '读书');
     // })
     this.pubsubGSN = pubsub.subscribe('getSchoolName',(msgName,data) => {
-      // 一定要使用箭头函数的形式，不然this指向就是undefined
+      // 一定要使用箭头函数的形式，不然this指向就是undefined,或者将回调函数写在methodes中
       console.log('感谢'+ msgName + '发布者的发布');
       console.log(this.name + '在' + data + '读书');
     })
