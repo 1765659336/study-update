@@ -22,5 +22,3 @@ const vm = new Vue({
 		Vue.prototype.$bus = this
 	}
 })
-
-console.log(vm);

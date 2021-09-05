@@ -1563,6 +1563,25 @@ export default {
 
 
 
+### nextTick()
+
+在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
+
+```
+// 修改数据
+vm.msg = 'Hello'
+// DOM 还没有更新
+Vue.nextTick(function () {
+  // DOM 更新了
+})
+
+// 作为一个 Promise 使用 (2.1.0 起新增，详见接下来的提示)
+Vue.nextTick()
+  .then(function () {
+    // DOM 更新了
+  })
+```
+
 ## vm.$?
 
 `vm是vc的超集，一般vm身上有的方法vc都有`
@@ -1752,6 +1771,31 @@ this.$emit("atguigu", this.name,1);
 // 解绑所有的自定义事件
 this.$off()
 ```
+
+
+
+### $nextTick()
+
+将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。它跟全局方法 `Vue.nextTick` 一样，不同的是回调的 `this` 自动绑定到调用它的实例上。
+
+````js
+new Vue({
+  // ...
+  methods: {
+    // ...
+    example: function () {
+      // 修改数据
+      this.message = 'changed'
+      // DOM 还没有更新
+      this.$nextTick(function () {
+        // DOM 现在更新了
+        // `this` 绑定到当前实例
+        this.doSomethingElse()
+      })
+    }
+  }
+})
+````
 
 
 
@@ -3439,7 +3483,1135 @@ export default {
 
 ## Vuex
 
+### `Vuex原理图
 
+![](Readme.assets/Vuex%E5%8E%9F%E7%90%86%E5%9B%BE.png)`
+
+### Vuex的基本使用
+
+`总结介绍`
+
+1. 当注册了`store`之后，vm身上就会有一个`$store属性`，属性值是一个对象如下所示
+
+![image-20210903111453717](Readme.assets/image-20210903111453717.png)
+
+2. `actions`里面的方法用来处理业务逻辑等，方法会默认接收到一个参数`context`对象结构如下。不要在actions中通过`this.state.xxx = xxx`来修改数据，虽然可以实现，但是不在mutations中修改vue生产工具调用监听不到修改，无法调试
+
+![image-20210903111755689](Readme.assets/image-20210903111755689.png)
+
+3. `mutations`中的方法一般直接进行数据的更改，方法会默认接收一个`参数state,`对象结构如下![image-20210903112341326](Readme.assets/image-20210903112341326.png)
+4. `getters`类似于组件的计算属性，方法名就是计算属性的名称，默认接收`参数state`，与上方一样。通过`return`来设置计算属性的值
+
+
+
+`安装vuex`
+
+```
+npm install vuex --save
+```
+
+`main.js`
+
+````js
+//引入Vue
+import Vue from 'vue'
+//引入App
+import App from './App.vue'
+// 引入store
+import store from './store'
+//关闭Vue的生产提示
+Vue.config.productionTip = false
+
+// 引入vuex之后就Vm中就有一个store属性了
+//创建vm
+const vm = new Vue({
+	el:'#app',
+	render: h => h(App),
+	store,
+})
+````
+
+`store.js`
+
+```js
+import Vuex from "vuex";
+import Vue from "vue";
+
+// --------- Vuex原理的三剑客
+const actions = {
+  incrementOdd(context, value) {
+    if (context.state.sum % 2) {
+      context.commit("INCREMENT",value)
+    }
+  },
+  incrementWait(context, value) {
+    setTimeout(() => {
+      context.commit("INCREMENT",value)      
+    }, 500);
+  }
+};
+const mutations = {
+  INCREMENT(state,value){
+    state.sum += value
+  },
+  DECREMENT(state,value){
+    state.sum -= value
+  }
+};
+// 类似于组件中的data，数据源
+const state = {
+  sum:1
+};
+// 类似于组件的计算属性，可在多个组件中复用的计算属性
+const getters = {
+  bigSum(state){
+    return state.sum * 10
+  }
+}
+// ---------
+
+// 在这里声明使用插件，而不在main.js中引用
+/* 因为在main.js中引用，模块化的代码执行顺序是先执行import外部模块代码，在执行自己模块的代码，在main.js中引用该store/index.js模块时，
+没有先声明Vuex,那么在执行import store from './store' 时解析到调用了new Vuex.Store,但是main.js中的使用插件Vue.use(Vuex)代码执行在import后面*/
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  actions,
+  mutations,
+  state,
+  getters
+});
+
+```
+
+`Count.vue`
+
+```html
+<template>
+  <div>
+    <h1>当前求和为：{{$store.state.sum}}</h1>
+    <h2>当前求和结果放大十倍是: {{$store.getters.bigSum}}</h2>
+    <select v-model.number="n">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+    <button @click="incrementOdd">当前求和为奇数再加</button>
+    <button @click="incrementWait">等一等再加</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Count",
+  data() {
+    return {
+      n: 1 //用户选择的数字
+    };
+  },
+  methods: {
+    increment() {
+	  this.$store.commit("INCREMENT",this.n)
+    },
+    decrement() {
+      this.$store.commit("DECREMENT",this.n)
+    },
+    incrementOdd() {
+      this.$store.dispatch("incrementOdd", this.n);
+    },
+    incrementWait() {
+      this.$store.dispatch("incrementWait", this.n);
+    }
+  }
+};
+</script>
+
+<style lang="css">
+button {
+  margin-left: 5px;
+}
+</style>
+
+```
+
+
+
+### Vuex辅助函数
+
+
+
+#### mapState与mapGetters
+
+当我们需要读取store中state的数据，我们需要多次书写`this.$store.state`，代码冗余，这时可以使用mapState来快速获取state中的数据
+
+mapGetters同理
+
+````js
+import { mapState, mapGetters } from 'vuex'
+export default {
+
+computed:{
+    // ------自己写计算属性
+    // sum(){
+    //   return this.$store.state.sum
+    // },
+    // bigSum(){
+    //   return this.$store.getters.bigSum
+    // }
+    // ------
+    // 生成计算属性对象写法
+    // ...mapState({sum:'sum'}),
+    // 数组写法
+    ...mapState(['sum']),
+    // ...mapGetters({bigSum:'bigSum'})
+    ...mapGetters(['bigSum'])
+  },
+    
+}
+````
+
+
+
+#### mapMutations与mapActions
+
+```html
+<template>
+	<button @click="increment(n)">+</button>
+    <button @click="decrement(n)">-</button>
+    <button @click="incrementOdd(n)">当前求和为奇数再加</button>
+    <button @click="incrementWait(n)">等一等再加</button>
+</template>
+```
+
+
+
+```js
+export default {
+    methods: {
+        /* increment() {
+			this.$store.commit("INCREMENT",this.n)
+    },
+    decrement() {
+      this.$store.commit("DECREMENT",this.n)
+    }, */
+
+        // 会自动接收页面中{{increment}}接收的参数，如果页面中不传，那么会接收到event事件参数
+        ...mapMutations({increment:'INCREMENT',decrement:'DECREMENT'}),
+
+        /* incrementOdd() {
+      this.$store.dispatch("incrementOdd", this.n);
+    },
+    incrementWait() {
+      this.$store.dispatch("incrementWait", this.n);
+    } */
+        // ...mapActions({incrementOdd:'incrementOdd',incrementWait:'incrementWait'})
+        // 如果函数名和后面的通信参数相同可以使用数组
+        ...mapActions(['incrementOdd','incrementWait'])
+    }
+}
+```
+
+
+
+### namespace\modules
+
+`store/index.js`
+
+````js
+//该文件用于创建Vuex中最为核心的store
+import Vue from 'vue'
+//引入Vuex
+import Vuex from 'vuex'
+import countOptions from './count'
+import personOptions from './person'
+//应用Vuex插件
+Vue.use(Vuex)
+
+//创建并暴露store
+export default new Vuex.Store({
+	modules:{
+		countOptions,
+		personOptions
+	}
+})
+````
+
+`store/count.js`
+
+```js
+//求和相关的配置
+export default {
+	namespaced:true,
+	actions:{
+		jiaOdd(context,value){
+			console.log('actions中的jiaOdd被调用了')
+			if(context.state.sum % 2){
+				context.commit('JIA',value)
+			}
+		},
+		jiaWait(context,value){
+			console.log('actions中的jiaWait被调用了')
+			setTimeout(()=>{
+				context.commit('JIA',value)
+			},500)
+		}
+	},
+	mutations:{
+		JIA(state,value){
+			console.log('mutations中的JIA被调用了')
+			state.sum += value
+		},
+		JIAN(state,value){
+			console.log('mutations中的JIAN被调用了')
+			state.sum -= value
+		},
+	},
+	state:{
+		sum:0, //当前的和
+		school:'尚硅谷',
+		subject:'前端',
+	},
+	getters:{
+		bigSum(state){
+			return state.sum*10
+		}
+	},
+}
+```
+
+``person.js`
+
+````js
+//人员管理相关的配置
+import axios from 'axios'
+import { nanoid } from 'nanoid'
+export default {
+	namespaced:true,
+	actions:{
+		addPersonWang(context,value){
+			if(value.name.indexOf('王') === 0){
+				context.commit('ADD_PERSON',value)
+			}else{
+				alert('添加的人必须姓王！')
+			}
+		},
+		addPersonServer(context){
+			axios.get('https://api.uixsj.cn/hitokoto/get?type=social').then(
+				response => {
+					context.commit('ADD_PERSON',{id:nanoid(),name:response.data})
+				},
+				error => {
+					alert(error.message)
+				}
+			)
+		}
+	},
+	mutations:{
+		ADD_PERSON(state,value){
+			console.log('mutations中的ADD_PERSON被调用了')
+			state.personList.unshift(value)
+		}
+	},
+	state:{
+		personList:[
+			{id:'001',name:'张三'}
+		]
+	},
+	getters:{
+		firstPersonName(state){
+			return state.personList[0].name
+		}
+	},
+}
+````
+
+
+
+### vuex的目录结构
+
+```
+├── index.html
+├── main.js
+├── api
+│   └── ... # 抽取出API请求
+├── components
+│   ├── App.vue
+│   └── ...
+└── store
+    ├── index.js          # 我们组装模块并导出 store 的地方
+    ├── actions.js        # 根级别的 action
+    ├── mutations.js      # 根级别的 mutation
+    └── modules
+        ├── cart.js       # 购物车模块
+        └── products.js   # 产品模块
+```
+
+
+
+## vue-router
+
+
+
+### 路由简介
+
+vue-router用来管理一组路由的配置，也就是`路由器`
+
+路由实际上应该是一组key-value表明对应关系，key就是`路径`value在`前端是组件`，后端是`回调函数`
+
+
+
+### 路由的基本使用
+
+1. 安装vue-router `npm install vue-router --save`
+2. 在main.js中注册使用插件
+
+```js
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+```
+
+3. 编写路由器router.js
+
+```js
+import VueRouter from 'vue-router'
+import Home from '../components/Home'
+import About from '../components/About'
+
+// 创建一个路由器
+export default new VueRouter({
+  routes:[
+    {
+      path:'/about',
+      component: About
+    },
+    {
+      path:'/home',
+      component: Home
+    },
+  ]
+})
+```
+
+4. 将路由器挂载到vm身上
+
+```js
+// 引入路由器
+import router from './router'
+new Vue({
+  render: h => h(App),
+  router
+}).$mount('#app')
+```
+
+5. `App.vue`
+
+router-link标签:
+
+​	解析成a标签，点击实现路由跳转
+
+​	to 配置路径
+
+​	active-class 路由选择时添加类名
+
+router-view标签
+
+​	跳转路由对应组件展示的位置
+
+```html
+<template>
+  <div>
+    <div class="row">
+      <div class="col-xs-offset-2 col-xs-8">
+        <div class="page-header"><h2>Vue Router Demo</h2></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-2">
+        <div class="list-group">
+          <!-- <a class="list-group-item" href="./about.html">About</a>
+          <a class="list-group-item active" href="./home.html">Home</a> -->
+          <!-- router-link会被解析成a标签
+            active-class指定路由被选择时，指定的类名
+           -->
+          <router-link to="/about" active-class="active" class="list-group-item">About</router-link>
+          <router-link to="/home" active-class="active" class="list-group-item">Home</router-link>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="panel">
+          <div class="panel-body">
+            <!-- 指定组件的呈现位置 -->
+            <router-view></router-view>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+
+
+### $route与$router
+
+1. 组件分类
+
+路由组件放在pages/下
+
+一般组件放在components/下
+
+2. 路由组件对象的属性
+
+每个路由组件vc上都会有$route 和 $router
+
+同一个项目里面一般只有一个router文件，所以每个路由组件上面的$router属性是相同的对象"==="
+
+但是$route都不一样，属性对应的值对象不相同
+
+`对象内容具体如下`
+
+![image-20210903163509007](Readme.assets/image-20210903163509007.png)
+
+3. 路由组件没有展示的时候被怎么处理了
+
+路由组件没有展示的时候被销毁了,展示的时候再挂载
+
+
+
+### 嵌套路由
+
+````js
+import VueRouter from 'vue-router'
+import Home from '../pages/Home'
+import About from '../pages/About'
+import Message from '../pages/Message'
+import News from '../pages/News'
+// 创建一个路由器
+export default new VueRouter({
+  routes:[
+    {
+      path:'/about',
+      component: About,
+      children:[
+        {
+          // vue-router会自动匹配上/
+          path: 'message',
+          component: Message,
+        },
+        {
+          path: 'news',
+          component: News,
+        }
+      ]
+    },
+    {
+      path:'/home',
+      component: Home,
+      children:[
+        {
+          // vue-router会自动匹配上/
+          path: 'message',
+          component: Message,
+        },
+        {
+          path: 'news',
+          component: News,
+        }
+      ]
+    },
+  ]
+})
+````
+
+`一级路由App.vue`
+
+````html
+<template>
+  <div>
+    <div class="row">
+      <div class="col-xs-offset-2 col-xs-8">
+        <Hand/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-2">
+        <div class="list-group">
+          <!-- <a class="list-group-item" href="./about.html">About</a>
+          <a class="list-group-item active" href="./home.html">Home</a> -->
+          <!-- router-link会被解析成a标签
+            active-class指定路由被选择时，指定的类名
+           -->
+          <router-link to="/about" active-class="active" class="list-group-item">About</router-link>
+          <router-link to="/home" active-class="active" class="list-group-item">Home</router-link>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="panel">
+          <div class="panel-body">
+            <!-- 指定组件的呈现位置 -->
+            <router-view></router-view>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: "App"
+};
+</script>
+````
+
+`二级路由Home.vue`
+
+```html
+<template>
+  <div>
+    <h2>我是Home的内容</h2>
+    <ul class="nav nav-tabs">
+      <li>
+        <!-- <a class="list-group-item active" href="./home-news.html">News</a> -->
+        <router-link to="/home/news" class="list-group-item" class-active="active">News</router-link>
+      </li>
+      <li>
+        <!-- <a class="list-group-item" href="./home-message.html">Message</a> -->
+        <router-link to="/home/message" class="list-group-item" class-active="active">Message</router-link>
+      </li>
+    </ul>
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Home"
+};
+</script>
+```
+
+
+
+### 给路由组件传递参数
+
+1. 传递params参数需要占位符
+2. 
+
+`传递参数Message.vue`
+
+````html
+<template>
+    <div>
+      <ul>
+        <li v-for="message in messageList" :key="message.id">
+          <!-- 路由传参query，字符串写法 -->
+          <!-- <router-link :to="`/home/message/detail?id=${message.id}&title=${message.title}`">{{message.title}}</router-link> -->
+          <!-- 路由传参query，对象写法 -->
+          <router-link :to="{
+            path:'/home/message/detail',
+            query: {
+              id:message.id,
+              title:message.title
+            }
+          }">
+            {{message.title}}
+          </router-link>
+            <!-- 路由parse传参的字符串写法 -->
+            <!-- <router-link :to="`/home/message/detail/${message.id}/${message.title}`">{{message.title}}</router-link> -->
+            <!-- 路由传参的对象写法 -->
+            <!-- !!!!!!!!!!!!!!!!!!有一个坑，9 -->
+            <router-link :to="{
+              name:'detailName',
+              params:{
+                id:message.id,
+                title:message.title
+              }
+            }">
+                {{message.title}}
+            </router-link>
+        </li>
+      </ul>
+      <router-view></router-view>
+    </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      messageList:[
+        {id:'001',title:'message001'},
+        {id:'002',title:'message002'},
+        {id:'003',title:'message003'}
+      ]
+    }
+  },
+}
+</script>
+````
+
+### 路由组件接收接收参数
+
+`方式1通过vc的route属性获取`
+
+`Detail.vue`
+
+````html
+<template>
+  <div>
+    {{$route.query.id}}-{{$route.query.title}}
+  </div>
+</template>
+````
+
+`方式二配置路由器通过props传递`
+
+router.js
+
+```js
+import VueRouter from 'vue-router'
+import Home from '../pages/Home'
+import About from '../pages/About'
+import Message from '../pages/Message'
+import News from '../pages/News'
+import Detail from '../pages/Detail'
+// 创建一个路由器
+export default new VueRouter({
+  routes:[
+    {
+      path:'/home',
+      component: Home,
+      children:[
+        {
+          // vue-router会自动匹配上/
+          path: 'message',
+          component: Message,
+          children:[
+            {
+              // 简化路由跳转，相当于路径的简写形式
+              name: 'detailName',
+              path: 'detail',
+              // 传递params参数需要占位符
+              // path: 'detail/:id/:title',
+              component: Detail,
+              // props的第一种写法，值为对象，将对象中的所有key-value以props形式传递给Detail组件
+              // props:{a:1,b:2}
+              // props的第二种写法，值为布尔值，如果为true，就会把路由组件中收到的所有"""""""params"""""""参数通过props传递给路由组件
+              // props:true
+              // props的第三种写法，值为回调函数, vue-router调用这个函数时，传递组件上的$route参数返回值是一个对象，传递给组件的props
+              props($route){
+                return {id:$route.query.id,title:$route.query.title}
+                // return {id:$route.params.id,title:$route.params.title}
+              }
+            }
+          ]
+        },
+        {
+          path: 'news',
+          component: News,
+        }
+      ]
+    },
+  ]
+})
+```
+
+
+
+### router-link 的 replace属性
+
+`router-link默认是push模式`
+
+![](Readme.assets/router-link%E7%9A%84%E9%BB%98%E8%AE%A4push%E6%A8%A1%E5%BC%8F.png)
+
+
+
+`给router-link 添加replace属性`
+
+````html
+<router-link 
+             to="/home/news" 
+             replace 
+             class="list-group-item" 
+             class-active="active">
+    News
+</router-link>
+````
+
+![](Readme.assets/router-link%E7%9A%84replace%E5%B1%9E%E6%80%A7.png)
+
+
+
+### 命名路由
+
+`作用:`简化编码，给路径起别名
+
+`使用前提:`router-link中to使用的是对象的写法
+
+```js
+import VueRouter from 'vue-router'
+import Home from '../pages/Home'
+import About from '../pages/About'
+import Message from '../pages/Message'
+import News from '../pages/News'
+import Detail from '../pages/Detail'
+// 创建一个路由器
+export default new VueRouter({
+  routes:[
+    {
+      path:'/about',
+      component: About,
+      children:[
+        {
+          // vue-router会自动匹配上/
+          path: 'message',
+          component: Message,
+        },
+        {
+          path: 'news',
+          component: News,
+        }
+      ]
+    },
+    {
+      path:'/home',
+      component: Home,
+      children:[
+        {
+          // vue-router会自动匹配上/
+          path: 'message',
+          component: Message,
+          children:[
+            {
+              // 简化路由跳转，相当于路径的简写形式
+              name: 'detailName',
+              path: 'detail',
+              component: Detail,
+            }
+          ]
+        },
+        {
+          path: 'news',
+          component: News,
+        }
+      ]
+    },
+  ]
+})
+```
+
+```html
+<template>
+    <div>
+      <ul>
+        <li v-for="message in messageList" :key="message.id">
+          <!-- 路由传参query，字符串写法 -->
+          <!-- <router-link :to="`/home/message/detail?id=${message.id}&title=${message.title}`">{{message.title}}</router-link> -->
+          <!-- 路由传参query，对象写法 -->
+          <router-link :to="{
+            //path:'/home/message/detail',
+            name: 'detailName',
+            query: {
+              id:message.id,
+              title:message.title
+            }
+          }">
+            {{message.title}}
+          </router-link>
+        </li>
+      </ul>
+      <router-view></router-view>
+    </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      messageList:[
+        {id:'001',title:'message001'},
+        {id:'002',title:'message002'},
+        {id:'003',title:'message003'}
+      ]
+    }
+  },
+}
+</script>
+```
+
+
+
+### 编程时路由导航
+
+```html
+<template>
+    <div>
+      <ul>
+        <li v-for="message in messageList" :key="message.id">
+          <router-link :to="`/home/message/detail?id=${message.id}&title=${message.title}`">{{message.title}}</router-link>
+          <button @click="pushBtn(message)">push查看</button>
+          <button @click="replaceBtn(message)">replace查看</button>
+        </li>
+      </ul>
+      <router-view></router-view>
+    </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      messageList:[
+        {id:'001',title:'message001'},
+        {id:'002',title:'message002'},
+        {id:'003',title:'message003'}
+      ]
+    }
+  },
+  methods: {
+    pushBtn(message){
+      this.$router.push({
+        name:'detailName',
+        query:{
+          id:message.id,
+          title:message.title
+        }
+      })
+    },
+    replaceBtn(message){
+      this.$router.replace({
+        name:'detailName',
+        query:{
+          id:message.id,
+          title:message.title
+        }
+      })
+    },
+  }
+}
+</script>
+```
+
+
+
+### 缓存路由组件
+
+```html
+<!-- 缓存路由组件 -->
+    <!-- include中传递的是组件的命名，不传include，那么所有在router-view中展示过的组件都会被缓存，不会被销毁 -->
+    <!-- 缓存多个的话那么写成 :include="['a','b',...]",名称是组件名name属性值 -->
+    <keep-alive include="NewsComponent">
+      <router-view></router-view>
+    </keep-alive>
+```
+
+
+
+### 路由组件独有的两个生命周期钩子函数
+
+```js
+export default {
+  name:'NewsComponent',
+  beforeDestroy() {
+    console.log('About中的News组件即将被销毁')
+  },
+  // 路由组件展示时调用
+  activated() {
+    this.timer = setInterval(()=>{
+      console.log('该路由组件展示')
+    })
+  },
+  // 路由组件销毁时调用
+  deactivated() {
+    clearInterval(this.timer)
+  },
+}
+```
+
+
+
+### 路由守卫
+
+`全局路由守卫`
+
+````js
+// 该文件专门用于创建整个应用的路由器
+import VueRouter from 'vue-router'
+//引入组件
+import About from '../pages/About'
+import Home from '../pages/Home'
+import News from '../pages/News'
+import Message from '../pages/Message'
+import Detail from '../pages/Detail'
+
+//创建并暴露一个路由器
+const router =  new VueRouter({
+	routes:[
+		{
+			name:'guanyu',
+			path:'/about',
+			component:About,
+			meta:{title:'关于'}
+		},
+		{
+			name:'zhuye',
+			path:'/home',
+			component:Home,
+			meta:{title:'主页'},
+			children:[
+				{
+					name:'xinwen',
+					path:'news',
+					component:News,
+					meta:{isAuth:true,title:'新闻'}
+				},
+				{
+					name:'xiaoxi',
+					path:'message',
+					component:Message,
+					meta:{isAuth:true,title:'消息'},
+					children:[
+						{
+							name:'xiangqing',
+							path:'detail',
+							component:Detail,
+							meta:{isAuth:true,title:'详情'},
+
+							//props的第一种写法，值为对象，该对象中的所有key-value都会以props的形式传给Detail组件。
+							// props:{a:1,b:'hello'}
+
+							//props的第二种写法，值为布尔值，若布尔值为真，就会把该路由组件收到的所有params参数，以props的形式传给Detail组件。
+							// props:true
+
+							//props的第三种写法，值为函数
+							props($route){
+								return {
+									id:$route.query.id,
+									title:$route.query.title,
+									a:1,
+									b:'hello'
+								}
+							}
+
+						}
+					]
+				}
+			]
+		}
+	]
+})
+
+//全局前置路由守卫————初始化的时候被调用、每次路由切换之前被调用
+router.beforeEach((to,from,next)=>{
+	console.log('前置路由守卫',to,from)
+	if(to.meta.isAuth){ //判断是否需要鉴权
+		if(localStorage.getItem('school')==='atguigu'){
+			next()
+		}else{
+			alert('学校名不对，无权限查看！')
+		}
+	}else{
+		next()
+	}
+})
+
+//全局后置路由守卫————初始化的时候被调用、每次路由切换之后被调用
+router.afterEach((to,from)=>{
+	console.log('后置路由守卫',to,from)
+	document.title = to.meta.title || '一开始'
+})
+
+export default router
+````
+
+`独享路由守卫`
+
+````js
+{
+			name:'zhuye',
+			path:'/home',
+			component:Home,
+			meta:{title:'主页'},
+			children:[
+				{
+					name:'xinwen',
+					path:'news',
+					component:News,
+					meta:{isAuth:true,title:'新闻'},
+					beforeEnter: (to, from, next) => {
+						console.log('独享路由守卫',to,from)
+						if(to.meta.isAuth){ //判断是否需要鉴权
+							if(localStorage.getItem('school')==='atguigu'){
+								next()
+							}else{
+								alert('学校名不对，无权限查看！')
+							}
+						}else{
+							next()
+						}
+					}
+				},
+````
+
+`组件内部守卫`
+
+```js
+<template>
+	<h2>我是About的内容</h2>
+</template>
+
+<script>
+	export default {
+		name:'About',
+		/* beforeDestroy() {
+			console.log('About组件即将被销毁了')
+		},*/
+		/* mounted() {
+			console.log('About组件挂载完毕了',this)
+			window.aboutRoute = this.$route
+			window.aboutRouter = this.$router
+		},  */
+		mounted() {
+			// console.log('%%%',this.$route)
+		},
+
+		//通过路由规则，进入该组件时被调用
+		beforeRouteEnter (to, from, next) {
+			console.log('About--beforeRouteEnter',to,from)
+			if(to.meta.isAuth){ //判断是否需要鉴权
+				if(localStorage.getItem('school')==='atguigu'){
+					next()
+				}else{
+					alert('学校名不对，无权限查看！')
+				}
+			}else{
+				next()
+			}
+		},
+
+		//通过路由规则，离开该组件时被调用
+		beforeRouteLeave (to, from, next) {
+			console.log('About--beforeRouteLeave',to,from)
+			next()
+		}
+	}
+</script>
+```
+
+
+
+### hash模式与history模式
+
+![](Readme.assets/hash%E6%A8%A1%E5%BC%8F%E4%B8%8Ehistory%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB.png)
+
+```js
+const router = new VueRouter({
+  mode: 'history',
+  routes: [...]
+})
+```
 
 
 
@@ -3583,7 +4755,7 @@ vm上，可以通过`vm.data里面的属性名`拿到，并且vm实例上还会�
 
 2.浏览器端通过Window.sessionStorage和Window.localStorage属性来实现本地存储机制。
 
-​	Vue组件中直接调用sessionStorage.xxx和localStorage.xxx
+​	Vue组件中直接调用`sessionStorage.xxx`和`localStorage.xxx`
 
 ```javascript
 localStorage.setItem('todos',JSON.stringify(value))

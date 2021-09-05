@@ -15,11 +15,11 @@ const actions = {
   }
 };
 const mutations = {
-  INCREMENT(context,value){
-    context.sum += value
+  INCREMENT(state,value){
+    state.sum += value
   },
-  DECREMENT(context,value){
-    context.sum -= value
+  DECREMENT(state,value){
+    state.sum -= value
   }
 };
 // 类似于组件中的data，数据源

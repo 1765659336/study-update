@@ -13,8 +13,8 @@
           <!-- router-link会被解析成a标签
             active-class指定路由被选择时，指定的类名
            -->
-          <router-link to="/About" active-class="active" class="list-group-item">About</router-link>
-          <router-link to="/Home" active-class="active" class="list-group-item">Home</router-link>
+          <router-link to="/about" active-class="active" class="list-group-item">About</router-link>
+          <router-link to="/home" active-class="active" class="list-group-item">Home</router-link>
         </div>
       </div>
       <div class="col-xs-6">

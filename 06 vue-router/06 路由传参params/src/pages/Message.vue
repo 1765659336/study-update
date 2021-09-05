@@ -15,7 +15,7 @@
           }">
             {{message.title}}
           </router-link> -->
-          <!-- 路由传参的字符串写法 -->
+          <!-- 路由parse传参的字符串写法 -->
             <!-- <router-link :to="`/home/message/detail/${message.id}/${message.title}`">{{message.title}}</router-link> -->
             <!-- 路由传参的对象写法 -->
             <!-- !!!!!!!!!!!!!!!!!!有一个坑，使用params的对象形式传递参数的时候，必须要写name而不能写path，不然会报错 -->

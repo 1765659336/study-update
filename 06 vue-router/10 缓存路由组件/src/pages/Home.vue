@@ -13,7 +13,7 @@
     </ul>
     <!-- 缓存路由组件 -->
     <!-- include中传递的是组件的命名，不传include，那么所有在router-view中展示过的组件都会被缓存，不会被销毁 -->
-    <!-- 缓存多个的话那么写成 :include="['a','b',...]" -->
+    <!-- 缓存多个的话那么写成 :include="['a','b',...]",名称是组件名name属性值 -->
     <keep-alive include="NewsComponent">
       <router-view></router-view>
     </keep-alive>
