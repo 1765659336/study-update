@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
+	</head>
+	<body>
+		<button type="button">fetch发送请求</button>
+		<script type="text/javascript">
+			const btn = document.querySelector('button');
+			btn.onclick = function(){
+				fetch('http://localhost/fetch?id=1',{
+					method: 'POST',
+					headers: {
+						id:1,
+						vip:7
+					},
+					// body可以发送params格式，json格式
+					body: 'username=admin&password=123456'
+				}).then(response => {
+					// return response.text()
+					return response.json()
+				}).then(value => console.log(value))
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" id="username"/>
+		<p></p>
+		<script type="text/javascript">
+			const input = document.querySelector('input');
+			const p = document.querySelector('p');
+			function handle(data){
+				input.style.border = "1px solid red";
+				p.innerHTML = data.msg;
+			}
+			
+			input.onblur = function(){
+				let username = this.value;
+				// 向服务器端发送请求，检测用户名是否存在
+				const script = document.createElement('script');
+				script.src = 'http://localhost/check-jsonp';
+				document.body.appendChild(script);
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<style type="text/css">
+			#result {
+				width: 200px;
+				height: 200px;
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<button type="button">点击发送请求</button>
+		<div id="result"></div>
+		<script type="text/javascript">
+			const btn = document.getElementsByTagName('button')[0];
+			const result = document.getElementById('#result');
+			btn.onclick = function(){
+				// 发送ajax请求
+				// 1、创建对象
+				const xhr = new XMLHttpRequest();
+				// 2、初始化
+				// 超时设置,浏览器network中请求会取消
+				xhr.timeout = 2000;
+				// 超时回调
+				xhr.ontimeout = function(){
+					alert('网络延迟，稍后重试');
+				}
+				// 网络异常回调，用谷歌浏览器的Network中的网络状态改为Offline
+				xhr.onerror = function(){
+					alert('断网了');
+				}
+				xhr.open('GET','http://localhost/delay');
+				// 3、发送
+				xhr.send();
+				// 4、事件绑定onload不兼容ie6
+				// on when 当...的时候
+				// readystate 是xhr对象的属性，表示状态0 1 2 3 4
+				xhr.onreadystatechange = function(){
+					// 判断响应数据是否全部返回
+					if(xhr.readyState === 4){
+						// 判断响应状态码 200 404 403 401 500
+						// 2xx 成功
+						if(xhr.status >= 200 && xhr.status < 300){
+							// 处理结果 行 头 空行 体
+							// console.log(xhr.status);//状态码
+							// console.log(xhr.statusText);//状态字符串
+							// console.log(xhr.getAllResponseHeaders());//所有的响应头
+							// console.log(xhr.response);//响应体
+							// 接收服务器返回的JSON数据
+							
+							// // 手动转换
+							// let person = JSON.parse(xhr.responseText);
+							
+							// 自动转换，设置返回数据的格式即可xhr.responseType = 'json';
+							// 设置result的文本,字符串
+							// result.innerHTML = xhr.response;
+							console.log(xhr.response);
+						}else {
+							
+						}
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

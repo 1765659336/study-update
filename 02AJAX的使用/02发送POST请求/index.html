@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<style type="text/css">
+			#result {
+				width: 200px;
+				height: 200px;
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<button type="button">点击发送请求</button>
+		<div id="result"></div>
+		<script type="text/javascript">
+			const btn = document.querySelector('button');
+			const result = document.querySelector('#result');
+			btn.onclick = function(){
+				// 发送ajax请求
+				// 1、创建对象
+				const xhr = new XMLHttpRequest();
+				// 请求参数
+				let params = null;
+				// 2、初始化
+				xhr.open('POST','http://localhost/server');
+				// 设置请求头，必须在open和send之间,设置请求参数的类型
+				xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+				// 3、发送
+				xhr.send(params);
+				// 4、事件绑定onload不兼容ie6
+				// on when 当...的时候
+				// readystate 是xhr对象的属性，表示状态0 1 2 3 4
+				xhr.onreadystatechange = function(){
+					// 判断响应数据是否全部返回
+					if(xhr.readyState === 4){
+						// 判断响应状态码 200 404 403 401 500
+						// 2xx 成功
+						if(xhr.status >= 200 && xhr.status < 300){
+							// 处理结果 行 头 空行 体
+							// console.log(xhr.status);//状态码
+							// console.log(xhr.statusText);//状态字符串
+							// console.log(xhr.getAllResponseHeaders());//所有的响应头
+							// console.log(xhr.response);//响应体
+							// 设置result的文本,字符串
+							result.innerHTML = xhr.responseText;
+						}else {
+							
+						}
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#result {
+				height: 300px;
+				width: 300px;
+				border: 1px solid black;
+			}
+		</style>
+		<script src="jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<button type="button">jQuery发送JSONP请求</button>
+		<div id="result">
+			
+		</div>
+		<script type="text/javascript">
+			$('button').eq(0).click(function(){
+				// callback参数是必填的固定的,并且有默认值,是一个函数
+				$.getJSON('http://localhost/jquery-jsonp?callback=?',function(data){
+					console.log(data);
+					$('#result').html(`
+					数据: ${data.data}<br>
+					城市: ${data.city}
+					`)
+				})
+			})
+		</script>
+	</body>
+</html>

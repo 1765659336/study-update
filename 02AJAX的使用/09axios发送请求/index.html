@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
+	</head>
+	<body>
+		<button type="button">点击发送GET请求</button>
+		<button type="button">点击发送POST请求</button>
+		<button type="button">通用性方法</button>
+		<script type="text/javascript">
+			const btns = document.querySelectorAll('button');
+			
+			btns[0].onclick = function(){
+				// GET请求
+				axios.get('http://localhost/axios',{
+					// url参数
+					params: {
+						id:100,
+						vip:7
+					},
+					headers: {
+						name:'liujie'
+					}
+				}).then(value => {
+					console.log(value);
+				})
+			}
+			
+			btns[1].onclick = function(){
+				axios.post('http://localhost/axios',{"name":"liujie","age":18},{
+					params: {
+						id:200,
+						vip:6
+					},
+					headers: {
+						value: 1
+					}
+				}).then(value => {
+					console.log(value);
+				})
+			}
+			
+			btns[2].onclick = function(){
+				axios({
+					// GET请求不能发送data请求体，默认是GET请求
+					method: 'POST',
+					url: 'http://localhost/axios',
+					params: {
+						id:200,
+						vip:6
+					},
+					headers: {
+						value: 1
+					},
+					data: {
+						username: 'liujie',
+						password: 'admin'
+					}
+				}).then(response => {
+					console.log(response);
+				})
+			}
+		</script>
+	</body>
+</html>

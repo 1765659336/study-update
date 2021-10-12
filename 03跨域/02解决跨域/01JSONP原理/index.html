@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#result {
+				width: 300px;
+				height: 300px;
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="result">
+			
+		</div>
+		<script type="text/javascript">
+			function handle(data) {
+				const result = document.getElementById('result');
+				result.innerHTML = data.data;
+			}
+		</script>
+		<!-- D:\HBuilderProjects\js\js高阶\ajax\03跨域\02解决跨域\01JSONP原理\index.html -->
+		<!-- <script src="./app.js" type="text/javascript" charset="utf-8"></script> 本地的file协议-->
+		<!-- app.js是网络地址，index.html是本地打开的 实现跨域 -->
+		<!-- <script src="http://127.0.0.1:8848/js/js%E9%AB%98%E9%98%B6/ajax/03%E8%B7%A8%E5%9F%9F/02%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F/01JSONP/app.js" type="text/javascript" charset="utf-8"></script> -->
+		<script src="http://localhost/jsonp" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>
