@@ -54,7 +54,7 @@ app.all('/delay', (req, res) => {
 	},3000);
 })
 
-// ajax发送请求
+// jquery发送请求
 app.all('/ajax', (req, res) => {
 	// 设置响应头,允许跨域
 	res.setHeader('Access-Control-Allow-Origin', '*');

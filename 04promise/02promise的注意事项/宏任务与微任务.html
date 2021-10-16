@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+        p1的状态和值，因为.then（）return了一个promise对象，所以P1的状态和值就是返回的这个promise对象
+        p2的状态和值，直接就是由new Promise()创造的对象决定的,
+        在全局作用域正常执行同步任务，遇到p1.then()放到宏任务中，遇到setTimeout()开启事件轮循,遇到p2.then()放到宏任务中, 
+      */
+      const p1 = new Promise((resolve, reject) => {
+        reject("p1失败");
+      }).then(
+        value => {
+          console.log(value);
+        },
+        reason => {
+          console.log('1');
+          return new Promise((resolve, reject) => {
+            resolve("p1成功");
+          });
+          console.log(reason);
+        }
+      );
+      console.log(p1, "p1初始值");
+      setTimeout(() => {
+        console.log(p1);
+        console.log('3');
+      }, 5000);
+
+      const p2 = new Promise((resolve, reject) => {
+        reject("p2失败");
+      });
+      const p3 = p2.then(
+        value => {
+          console.log(value);
+        },
+        reason => {
+          console.log('2');
+          return new Promise((resolve, reject) => {
+            resolve("p2成功");
+          });
+          console.log(reason);
+        }
+      );
+      console.log(p2, "p2初始值");
+      console.log(p3,"p3");
+      setTimeout(() => {
+        console.log(p2);
+        console.log('4');
+      }, 5000);
+    </script>
+  </body>
+</html>

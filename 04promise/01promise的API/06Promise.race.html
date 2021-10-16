@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 接收promise对象组成的数组，值和状态由第一个返回值和状态的promise对象决定
+      const p1 = new Promise((resolve, reject) => {
+        console.log("成功1");
+        resolve("成功1");
+      });
+      p1.then(value => {
+        return new Promise((resolve, reject) => {
+          console.log("成功2");
+          resolve("成功2");
+        });
+      });
+
+      const p2 = new Promise((resolve, reject) => {
+        // setTimeout(() => {
+        console.log("失败");
+        // let err = "失败"
+        reject("err");
+        // throw "err";
+        // }, 1000);
+      });
+      p2.then(
+        value => {
+          console.log(value);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+      let p = Promise.race([p1, p2]);
+      setTimeout(() => {
+        console.log(p);
+        // console.log(p1);
+      }, 1000);
+    </script>
+  </body>
+</html>

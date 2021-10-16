@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let p = new Promise((resolve, reject) => {
+        resolve('成功')
+      }).then(value=>{
+        console.log(value);
+      }).then(value=>{
+        console.log(value);
+        // 打断链式调用的唯一方式，返回一个pedding状态的promise对象
+        return new Promise((resolve,reject)=>{})
+      }).then(value=>{
+        console.log(value);
+        console.log('调用到我这来了吗？');
+      })
+    </script>
+  </body>
+</html>

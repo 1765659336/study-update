@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			const p = new Promise(function(resolve,reject){
+				setTimeout(function(){
+					let data = '用户数据';
+					resolve(data);
+				},1000)
+			})
+			
+			// then方法可以只写第一个参数，也就是状态为成功时调用的函数
+			// then()方法返回一个promise对象，这样就可以进行链式调用了，解决回调地狱
+			const result = p.then(function(value){
+				// 1、默认return 返回一个 undefined，状态为完成
+				console.log(value);
+				// 2、return的值不是一个promise对象时,状态为完成，值为return的值
+				// return 123
+				// 3、throw抛出一个结果，状态为拒绝，值为抛出的值
+				// throw '123'
+				// 4、抛出一个error错误对象，状态为拒绝，值为抛出的error对象
+				// throw new Error('123');
+				// 5、return一个promise对象，状态为下一级promise对象的状态，值也是下一级promise的值
+				return new Promise(function(resolve,reject){
+					// promise封装异步操作，也可以执行同步代码
+					// resolve('123');
+					reject('123');
+				})
+			})
+			console.log(result);
+		</script>
+	</body>
+</html>

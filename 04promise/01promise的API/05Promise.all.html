@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 接收多个promise对象组成的数组，只有当所有的promise对象的状态都为成功，返回的promise对象的状态才为成功，
+      // 当状态为成功时，值为各个promise对象的值组成的数组
+      // 当状态为失败时，值为第一个失败的promise对象的值
+      const p = Promise.all([
+        new Promise((resolve, reject) => {
+          resolve("成功1");
+        }),
+        new Promise((resolve, reject) => {
+          resolve("成功2");
+        }),
+        new Promise((resolve, reject) => {
+          reject("失败1");
+        }),
+        new Promise((resolve,reject)=>{
+          reject("失败2")
+        })
+      ]);
+      console.log(p);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Promise构造函数接收一个函数，这个函数是同步执行的，这个函数接收两个参数（类型都是函数）
+      const p = new Promise((resolve, reject) => {
+        console.log("执行1");
+        resolve("成功");
+      });
+      console.log("执行2");
+      console.log(p);
+    </script>
+  </body>
+</html>

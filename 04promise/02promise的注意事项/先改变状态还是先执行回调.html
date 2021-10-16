@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 当执行器中是同步任务的时候，先改变状态后执行回调
+      /* const p = new Promise((resolve, reject) => {
+        resolve("OK");
+      });
+      p.then(
+        value => {
+          console.log(value);
+        },
+        reason => {
+          console.log(reason);
+        }
+      );
+      console.log(p); */
+
+      // 当执行器中是异步任务的时候，先执行回调后改变状态
+      // ~~~ 当p.then()需要异步操作更长的时间的，先改变状态后指向回调
+      /* const p = new Promise((resolve, reject) => {
+        setTimeout(()=>{
+          resolve("OK");
+        },1000)
+      });
+      p.then(
+        value => {
+          console.log(value);
+        },
+        reason => {
+          console.log(reason);
+        }
+      );
+      setInterval(()=>{
+        console.log(p);
+      },200) */
+    </script>
+  </body>
+</html>

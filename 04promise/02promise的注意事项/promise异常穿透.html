@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 在then链式调用的时候在最后指定错误的回调,不管是链式调用的哪个环节失败了，都只需要在最后指定失败的回调即可
+      let p1 = new Promise((resolve, reject) => {
+        resolve("成功");
+      })
+        .then(value => {})
+        .then(value => {
+          return new Promise((resolve, reject) => {
+            reject("err");
+          });
+        })
+        .catch(reason => {
+          console.log(reason);
+        });
+    </script>
+  </body>
+</html>

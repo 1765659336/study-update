@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+      // reject()传入一个promise对象，那么返回值是一个promise对象，状态为失败，值由传入的promise对象决定
+    // 传入一个非promise对象，返回值是一个失败的promise对象，状态永远为成功，值为传入的值
+    const p1 = Promise.reject(521);
+      const p2 = Promise.reject(new Promise((resolve,reject)=>{
+        resolve('成功');
+      }))
+      console.log(p1);
+      console.log(p2);
+    </script>
+</body>
+</html>
