@@ -103,7 +103,7 @@ npm run dev
 
 ### 2.ref 函数
 
-- 作用: 定义一个响应式的数据
+- 作用: 定义一个响应式的数据，实现vue2中ref作用
 - 语法: `const xxx = ref(initValue)`
   - 创建一个包含响应式数据的`引用对象（reference对象，简称ref对象）。`
   - JS 中操作数据： `xxx.value`
@@ -115,7 +115,7 @@ npm run dev
 
 ```html
 <template>
-  <h1>一个人的信息</h1>
+  <h1 ref="hRef">一个人的信息</h1>
   <h2>姓名：{{name}}</h2>
   <h2>年龄: {{age}}</h2>
   <button @click="change">改变人的信息</button>
@@ -129,6 +129,7 @@ npm run dev
   export default {
     name: "App",
     setup() {
+      let hRef = ref();
       let name = ref("张三");
       let age = ref(18);
       let obj = ref({
@@ -146,6 +147,7 @@ npm run dev
       }
 
       return {
+        hRef,
         name,
         age,
         change,
@@ -1412,3 +1414,261 @@ export default {
   > 过滤器虽然这看起来很方便，但它需要一个自定义语法，打破大括号内表达式是 “只是 JavaScript” 的假设，这不仅有学习成本，而且有实现成本！建议用方法调用或计算属性去替换过滤器。
 
 - ...... 
+
+## 七、代理服务器
+
+`vite.config.ts`
+
+```js
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  server: {
+    proxy: {
+      "/admin": {
+        target: "https://api.eveadmin.com",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, "")
+      }
+    }
+  }
+});
+```
+
+## 八、vuex4.0
+
+`yarn add vuex@next`
+
+`main.js`
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+import store from './vuex/store'
+
+createApp(App).use(store).mount('#app')
+```
+
+`store.js`
+
+```js
+import { createStore } from "vuex";
+
+export default createStore({
+  // 严格模式
+  strict: true,
+  state: {
+    //组件中的data
+    count: 0
+  },
+  getters: {
+    //vuex4.0没有实现计算属性的功能
+    double(state){
+      return state.count * 2
+    }
+  },
+  mutations: {
+    // “同步”更改状态
+    add(state,payload){
+      state.count += payload;
+    }
+  },
+  actions: {
+    // 可以调用其他的action，或者调用mutations
+    asyncAdd(a,payload){
+      console.log(a);
+      setTimeout(() => {
+        a.commit('add',payload);
+      }, 2000);
+    }
+  },
+  modules: {}
+});
+// 在action中更改状态不合法，一般是在action中做逻辑
+// 流程：dispatch(action) => commit(mutation) => 修改状态
+```
+
+`App.vue`
+
+```html
+<template>
+  <div>{{count}}</div>
+  <div>{{double}}</div>
+  <button @click="$store.state.count++">错误修改count+1</button>
+  <button @click="add">同步修改</button>
+  <button @click="asyncAdd">异步修改</button>
+</template>
+
+<script>
+import { useStore } from "vuex";
+import { computed } from "vue";
+export default {
+  name: "App",
+  setup() {
+    const store = useStore();
+    console.log(store);
+    const add = function(){
+      store.commit('add',1);
+    }
+    const asyncAdd = function(){
+      store.dispatch('asyncAdd',2);
+    }
+    return {
+      count: computed(() => {return store.state.count}),
+      double: computed(()=>{return store.getters.double}),
+      add,
+      asyncAdd
+    };
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+</style>
+```
+
+## 九、vue-router4.0
+
+`yarn add vue-router@next`
+
+1. `router-link`,`router-view`与vue2相同
+2. 通过调用 `app.use(router)`，我们可以在任意组件中以 `this.$router` 的形式访问它，并且以 `this.$route` 的形式访问当前路由
+3. 要在 `setup` 函数中访问路由，请调用 `useRouter` 或 `useRoute` 函数
+
+```html
+<script>
+import { useRouter, useRoute } from "vue-router";
+export default {
+  name: "App",
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    console.log(route,router);
+    return {
+    };
+  }
+};
+</script>
+
+<template>
+  <div>依然可以用this.$route和this.$router获取到路由器和当前路由对象</div>
+  <div>{{this.$route}}</div>
+  <div :style="{'margin': '50px'}">-----------</div>
+  <div>{{this.$router}}</div>
+  <router-link to="/">Go to Home</router-link>
+  <router-link to="/about">Go to About</router-link>
+  <router-view></router-view>
+</template>
+```
+
+4. `路由器`
+
+```js
+import { createRouter, createWebHashHistory } from "vue-router";
+import Home from "../pages/home/Home.vue";
+import About from "../pages/about/About.vue";
+const routes = [
+  {
+    path: "/",
+    component: Home
+  },
+  {
+    path: "/about",
+    component: About
+  }
+];
+
+export default createRouter({
+  history: createWebHashHistory(),
+  routes
+});
+```
+
+5. 带参数的动态路由匹配
+
+使用带有参数的路由时需要注意的是，当用户从 /users/johnny导航到/users/jolyne时，`相同的组件实例将被重复使用`。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。`不过，这也意味着组件的生命周期钩子不会被调用`。
+
+要对同一个组件中参数的变化做出响应的话，你可以简单地 watch `$route` 对象上的任意属性
+
+或者，使用 `beforeRouteUpdate` [导航守卫](https://next.router.vuejs.org/zh/guide/advanced/navigation-guards.html)，它也可以取消导航
+
+```js
+import { createRouter, createWebHashHistory } from "vue-router";
+import Home from "../pages/home/Home.vue";
+import About from "../pages/about/About.vue";
+import Artice from "../pages/artice/Artice.vue";
+const routes = [
+  {
+    path: "/",
+    component: Home
+  },
+  {
+    path: "/about",
+    component: About
+  },
+  {
+    path: "/username/:userid/artice/:articeid",
+    component: Artice
+  }
+];
+
+export default createRouter({
+  history: createWebHashHistory(),
+  routes
+});
+
+```
+
+```html
+<script>
+import { useRouter, useRoute } from "vue-router";
+import { ref } from "vue";
+export default {
+  name: "App",
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const articeid = ref(0);
+    console.log(route, router);
+    const gotoArtice = function() {
+      router.push("/about");
+      console.log(route.params);
+    };
+    return {
+      gotoArtice,
+      articeid
+    };
+  }
+};
+</script>
+
+<template>
+  <div>依然可以用this.$route和this.$router获取到路由器和当前路由对象</div>
+  <!-- <div>{{this.$route}}</div> -->
+  <div>跳转参数{{this.$route.params}}</div>
+  <div>articeid的值为：{{articeid}}</div>
+  <button @click="articeid++">articeid + 1</button>
+  <div :style="{'margin': '50px'}">-----------</div>
+  <!-- <div>{{this.$router}}</div> -->
+  <router-link to="/">Go to Home</router-link>
+  <router-link to="/about">Go to About</router-link>
+  <router-link :to="'/username/1/artice/' + `${articeid}`">Go to Artice</router-link>
+  <router-view></router-view>
+</template>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+```
+

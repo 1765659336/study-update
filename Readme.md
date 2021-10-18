@@ -3497,7 +3497,7 @@ export default {
 
 
 
-## Vuex
+## Vuex3.0
 
 ### `Vuex原理图
 
