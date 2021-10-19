@@ -11,7 +11,7 @@ const request = axios.create({
 // request interceptor
 request.interceptors.request.use(
   (config:any) => {
-    config.headers["Authorization"] = "bearer " + get("token");
+    config.headers["Authorization"] = get("token");
     // c.url=c.url + "?apiName=CuxQiadHdQuery"
     config.url = config.url;
     return config;
