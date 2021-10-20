@@ -49,7 +49,7 @@ export default defineComponent({
     visible: Boolean
   },
   emits: {
-    cancelEdit: () => true,
+    cancelEdit: () => false,
     changeUserDom: () => true
   },
   setup(props, ctx) {

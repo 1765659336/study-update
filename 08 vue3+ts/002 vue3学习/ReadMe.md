@@ -868,6 +868,113 @@ export default {
 </style>
 ```
 
+### 11.emits
+
+emits 可以是数组或对象，从组件触发自定义事件，emits 可以是简单的数组，也可以是对象，后者允许配置事件验证。
+
+`Son.vue`
+
+```html
+<template>
+  <div>
+    子组件
+    <button @click="$emit('a')">a</button>
+    <button @click="fn">fn</button>
+  </div>
+</template>
+
+<script>
+export default {
+  setup(props, ctx) {
+    const fn = () => {
+      ctx.emit("submit", { lock: false});
+    };
+    return {
+      fn
+    };
+  },
+  // emits: ['a'],
+  emits: {
+    a: null,
+    submit: payload => {
+      console.log(payload);
+      if (payload.lock) {
+        console.log("true");
+        return true
+      } else {
+        console.log("false");
+        return false
+      }
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+</style>
+```
+
+`App.vue`
+
+```html
+<template>
+  <div>
+    <Son @a="a" @submit="b"></Son>
+    <Son @click="clg" @submit="b"></Son>
+  </div>
+</template>
+
+<script>
+import Son from "./components/Son.vue";
+export default {
+  setup() {
+    function a() {
+      console.log("a");
+    }
+    function clg() {
+      console.log("clg");
+    }
+    function b(payload) {
+      console.log(payload);
+    }
+    return { a, clg, b };
+  },
+  components: {
+    Son
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+</style>
+```
+
+```
+如果emits验证不通过，父组件仍然会执行，但是会打印warning：
+[Vue warn]: Invalid event arguments: event validation failed for event "submit".
+{lock: false}
+如果验证通过，则不会提示warning：
+{lock: false}
+```
+
+```
+强烈建议使用 emits 记录每个组件所触发的所有事件。
+
+这尤为重要，因为我们移除了 .native 修饰符。任何未在 emits 中声明的事件监听器都会被算入组件的 $attrs，并将默认绑定到组件的根节点上。
+```
+
+```
+当一个父级组件拥有 click 事件的监听器时：
+
+<my-button v-on:click="handleClick"></my-button>
+该事件现在会被触发两次:
+
+一次来自 $emit()。
+另一次来自应用在根元素上的原生事件监听器。
+```
+
+
+
 ## 三、其它 Composition API
 
 ### 1.shallowReactive 与 shallowRef

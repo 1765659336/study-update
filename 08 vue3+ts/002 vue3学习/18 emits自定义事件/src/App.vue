@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Son @a="a"></Son>
-    <Son @click="clg"></Son>
+    <Son @a="a" @submit="b"></Son>
+    <Son @click="clg" @submit="b"></Son>
   </div>
 </template>
 
@@ -15,7 +15,10 @@ export default {
     function clg() {
       console.log("clg");
     }
-    return { a, clg };
+    function b(payload) {
+      console.log(payload);
+    }
+    return { a, clg, b };
   },
   components: {
     Son
