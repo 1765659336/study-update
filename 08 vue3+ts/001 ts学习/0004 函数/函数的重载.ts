@@ -10,4 +10,4 @@ function addOverloading(a:any,b:any){
   }
 }
 
-console.log(addOverloading(1,2));
+console.log(addOverloading(1,2));//3

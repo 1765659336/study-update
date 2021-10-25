@@ -3540,7 +3540,7 @@ Vue.config.productionTip = false
 
 // 引入vuex之后就Vm中就有一个store属性了
 //创建vm
-const vm = new Vue({
+new Vue({
 	el:'#app',
 	render: h => h(App),
 	store,
@@ -3597,7 +3597,6 @@ export default new Vuex.Store({
   state,
   getters
 });
-
 ```
 
 `Count.vue`
