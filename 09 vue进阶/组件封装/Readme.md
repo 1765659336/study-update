@@ -471,10 +471,10 @@ methods: {
       }
     },
     mounted() {
-      this.$parent.$on("clg",function(msg){
+      this.$parent.$on("clg", msg => {
         console.log(msg)
       })
-      this.$root.$on("hello",function(name){
+      this.$root.$on("hello",name => {
         console.log("hello",name);
       })
     },

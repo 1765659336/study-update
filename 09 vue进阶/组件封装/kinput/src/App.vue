@@ -1,19 +1,37 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <k-form :model="model">
+      <k-form-item label="用户名" prop="username">
+        <k-input v-model="model.username" placeholder="请输入用户名"></k-input>
+      </k-form-item>
+      <k-form-item label="密码" prop="password">
+        <k-input v-model="model.password" placeholder="请输入用户名"></k-input>
+      </k-form-item>
+    </k-form>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import KInput from "./components/KInput.vue";
+import KFormItem from "./components/KFormItem.vue";
+import KForm from "./components/KForm.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    KInput,
+    KFormItem,
+    KForm
+  },
+  data() {
+    return {
+      model: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+};
 </script>
 
 <style>
