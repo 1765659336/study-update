@@ -192,7 +192,7 @@ node server.js //启动
 
 ## 遇到的问题
 
-打包之后接口跨域，前端没有设置代理，又加上request的baseURL写成了localhost写死了，客户访问项目，localhost的值是客户的主机ip地址，所以跨域了
+1. 打包之后接口跨域，前端没有设置代理，又加上request的baseURL写成了localhost写死了，客户访问项目，localhost的值是客户的主机ip地址，所以跨域了
 
 ```js
 module.exports = {
@@ -215,3 +215,4 @@ module.exports = {
 
 ![image-20211125151509618](%E9%83%A8%E7%BD%B2vue+node%E9%A1%B9%E7%9B%AE.assets/image-20211125151509618.png)
 
+2. 服务器要记得开对应端口号，关防火墙
