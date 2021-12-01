@@ -3993,6 +3993,25 @@ router-view标签
 
 路由组件没有展示的时候被销毁了,展示的时候再挂载
 
+### 路由重定向
+
+```js
+export default new VueRouter({
+    routes: [{
+        path: "/",
+        redirect: "/home"
+    },
+    {
+        path: "/home",
+        component: Home,
+    },
+    {
+        path: "/search",
+        component: Search,
+    },]
+})
+```
+
 
 
 ### 嵌套路由
@@ -4167,7 +4186,7 @@ export default {
 </script>
 ````
 
-### 路由组件接收接收参数
+### 路由组件接收参数
 
 `方式1通过vc的route属性获取`
 
