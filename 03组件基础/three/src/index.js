@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 
 // 函数组件又叫无状态组件，类组件又叫有状态组件
 // 状态即为数据
-// 函数组件没有自己的状态，只负责静态数据的沾水
+// 函数组件没有自己的状态，只负责静态数据的展示
 // 类组件有自己的状态，通常用来展示动态数据
 class App extends React.Component {
 	// constructor() {

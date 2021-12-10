@@ -15,16 +15,18 @@ class App extends React.Component {
 				<div>
 					<h1>路由的基本使用</h1>
 					<Link to="/first">页面一</Link>
-					<Link to="/second">页面二</Link>
 					<Route path="/first" component={First}></Route>
-					<Route path="/second" component={Second}></Route>
 				</div>
 			</Router>
 		)
 	}
 }
 
-const First = () => <p>页面一的页面内容</p>
+const First = () => (<div>
+	<Link to="/first/second">页面二</Link>
+	<Route path="/first/second" component={Second}></Route>
+	<p>页面一的内容</p>
+</div>)
 
 const Second = () => <p>页面二的内容</p>
 
