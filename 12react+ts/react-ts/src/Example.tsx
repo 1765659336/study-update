@@ -26,16 +26,16 @@ export default class Example extends Component<IProps, IState> {
       this.setState({ age: 20 });
     }, 1000);
 
-    /* // 我们发现页面count的值为100，不是我们想要的值,因为setState更新是异步的，不能采用这种方式去更新count的值,当短时间多次调用setState,进行多次更改时，多个异步任务会被当成一个
+    /* // 我们发现页面count的值为100，不是我们想要的值,因为setState更新是异步的，不能采用这种方式去更新count的值,当短时间多次调用setState,进行多次更改时，多个异步任务会被当成一个,出于性能考虑
     for (let i = 1; i <= 100; i++) {
       this.setState({ count: this.state.count + i });
     } */
 
     // 正确的方式
     for (let i = 1; i <= 100; i++) {
-      this.setState((state) => ({
+      this.setState((state) => { return {
         count: state.count + i,
-      }));
+      }});
     }
   }
   changeAge = (num:number): void => {
