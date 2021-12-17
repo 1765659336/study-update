@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-	</head>
-	<body>
-		<script type="text/javascript">
-			class Person {
-				constructor(xxx) {
-				    this.xxx = xxx;
-				}
-			}
-			
-			// 直接添加在Person类身上的，就是静态成员
-			Person.xxx = 'Person类';
-			const p = new Person('liujie');
-			console.log(Person.xxx);
-			console.log(p.xxx);
-		</script>
-	</body>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        class Person {
+            constructor(xxx) {
+                this.xxx = xxx;
+            }
+        }
+
+        // 直接添加在Person类身上的，就是静态成员
+        Person.xxx = 'Person类';
+        const p = new Person('liujie');
+        console.log(Person.xxx);
+        console.log(p.xxx);
+    </script>
+</body>
+
 </html>

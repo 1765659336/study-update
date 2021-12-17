@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var attName1 = 'name';
+        var p1 = {
+            attName: '李四', // 这里的attName是属性名，相当于各级p定义了属性名叫 attName的属性。
+            age: 20
+        }
+        console.log(p1[attName]) // undefined
+
+        var attName = 'name';
+        var p = {
+            [attName]: '李四', // 引用了变量attName。相当于添加了一个属性名为name的属性
+            age: 20
+        }
+        console.log(p[attName]) // 李四
+    </script>
+</body>
+
+</html>
