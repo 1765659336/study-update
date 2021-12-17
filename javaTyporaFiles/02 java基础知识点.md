@@ -231,9 +231,33 @@ public class Test2 {
 }
 ```
 
+### 字符类型
 
+```
+1. char字符必须使用''单引号包裹
+2. char本质是一个整数,在输出时,是Unicode对应的字符
+3. 使用\转义字符,将其后面的字符变为特殊字符的对应Unicode编码字符
+4. 给char类型赋一个整数,在输出时,会按照对应的Unicode字符输出结果
+5. char类型相当于一个整数,可以直接进行运算
+```
 
+```java
+public class Test3 {
+    public static void main(String[] args){
+        char c1 = '杰';
+        System.out.println((int)c1); // 26480
+        char c2 = 26480;
+        System.out.println(c2); // 杰
+        System.out.println('杰' + 10); //26490
+    }
+}
+```
 
+### 布尔类型
+
+```
+1.boolean类型"只"允许取值true和false
+```
 
 ## java API
 
@@ -243,3 +267,128 @@ public class Test2 {
 怎么查找: jdk8,11 --> 包 --> 类 --> 方法
 离线版自带检索
 ```
+
+## 常见的编码
+
+```
+ASCII: 1个字节表示,一共128个字符(足够存放老外的字母和其它字符)
+Unicode:2个字节表示字符,存放字母就比较浪费空间
+utf-8:大小可变的编码,字母使用1个字节,汉字使用3个字节
+gbk:字母1个字节,汉字2个字节
+gb2312:gbk的缩小版
+big5:繁体中文
+```
+
+## 类型转换
+
+### 基本数据类型之间转换
+
+#### 自动类型转换
+
+```
+当java程序在进行赋值或者运算时,精度小的类型自动转换为精度大的数据类型,这就是自动类型转换
+```
+
+```java
+public class Conversion {
+    public static void main(String[] args){
+        double num1 = 80;
+        System.out.println(num1); // 80.0
+    }
+}
+```
+
+```
+1. 有多种类型的数据混合运算时,系统首先自动将所有数据都转换成容量最大的数据类型,然后再进行运算
+2. 当我们把精度大的赋值给精度小的时,会报错.但是把精度小的赋值给精度大的时,会触发自动类型转换
+3. byte,short 不会和 char 发生类型自动转换
+4. byte,short,char三者参与运算时,首先都会被转换为int类型,后面再转换为最大精度的类型
+5. boolean不参与转换
+```
+
+#### 强制类型转换
+
+```
+自动类型转换的逆过程,将容量大的数据类型转换为容量小的数据类型.使用时要加上强制转换符(),但可能造成精度的损失,需要格外的注意
+```
+
+```java
+public class ConversionMandatory {
+	public static void main(String[] args){
+		int i = (int)1.9;
+		System.out.println(i);//1
+		/*
+			强制类型转换符只针对最近的操作数有效,往往会使用()提升优先级
+		*/
+		// int x = (int) 10.0/4+3.0;// 报错因为int只会转换10.0/4的值,3.0是double类型,最后自动类型转换值的类型会是double类型
+		int x2 = (int)(10.0/4 + 3);
+		System.out.println(x2);//5
+		/*
+			char类型可以保存int的常量值,但不能保存int的变量值
+		*/
+		char c1 = 100;
+		int m = 100;
+		// char c2 = m; // 报错
+		char c3 = (char)m;
+		System.out.println(c1+"-"+c3);// d-d
+	}
+}
+```
+
+```java
+public class ConversionMandatory {
+	public static void main(String[] args){
+		int i = (int)1.9;
+		System.out.println(i);//1
+		/*
+			强制类型转换符只针对最近的操作数有效,往往会使用()提升优先级
+		*/
+		// int x = (int) 10.0/4+3.0;// 报错因为int只会转换10.0/4的值,3.0是double类型,最后自动类型转换值的类型会是double类型
+		int x2 = (int)(10.0/4 + 3);
+		System.out.println(x2);//5
+		/*
+			char类型可以保存int的常量值,但不能保存int的变量值
+		*/
+		char c1 = 100;
+		int m = 100;
+		// char c2 = m; // 报错
+		char c3 = (char)m;
+		System.out.println(c1+"-"+c3);// d-d
+		/* 
+			byte和short在进行运算时,当做int类型处理
+		*/
+		byte a = 1;
+		int b = a + 10;
+		System.out.println(b);//11
+	}
+}
+```
+
+### 基本数据类型和String类型的转换
+
+#### 基本数据类型转String
+
+```
+基本数据类型+ "" 即可
+```
+
+#### String类型转基本数据类型
+
+```
+通过基本类型的包装类调用parseXX方法即可
+```
+
+```java
+public class StringBasic {
+    public static void main(String[] args){
+        System.out.println(Integer.parseInt("123")); //123
+        System.out.println(Double.parseDouble("123.1")); //123.1
+        System.out.println(Float.parseFloat("1F"));//1.0
+        System.out.println(Short.parseShort("123"));//123
+        System.out.println(Long.parseLong("123"));//123
+        System.out.println(Boolean.parseBoolean("true"));//true
+        System.out.println(Byte.parseByte("123"));//123
+    }
+}
+```
+

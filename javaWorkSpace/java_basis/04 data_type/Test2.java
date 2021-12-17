@@ -1,4 +1,4 @@
-public class Test {
+public class Test2 {
     public static void main(String[] args) {
         double num1 = 1.231231231;
         float num2 = 1.231231231F;
