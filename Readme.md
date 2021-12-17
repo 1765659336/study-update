@@ -1503,7 +1503,17 @@ npm install express
 ### 初次使用
 
 ```JavaScript
-// 引入express框架const express = require('express');// 创建网站服务器const app = express();app.get('/', (req, res) => {  // send()方法  /*    send()内部会检测响应内容的类型    自动设置http状态码    自动设置响应的内容类型及编码  */  res.send('哈哈哈');})app.get('/list', (req, res) => {  res.send({    name: '刘德华',    age: 18  });})app.listen(80);console.log('网站服务器启动成功');
+// 引入express框架
+const express = require('express');
+// 创建网站服务器
+const app = express();
+app.get('/', (req, res) => {  
+    // send()方法  
+    /*    send()内部会检测响应内容的类型    自动设置http状态码    自动设置响应的内容类型及编码  */  
+    res.send('哈哈哈');})
+app.get('/list', (req, res) => {  
+    res.send({    name: '刘德华',    age: 18  });})
+app.listen(80);console.log('网站服务器启动成功');
 ```
 
 
