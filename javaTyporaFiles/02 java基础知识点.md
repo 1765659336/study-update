@@ -90,3 +90,156 @@ exit 退出DOS
 \r 一个回车
 ```
 
+## 变量
+
+```java
+public class AllVariable {
+    public static void main(String[] args){
+        /* 
+            整型：int
+            double
+            char
+            String
+        */
+        /* 
+            1.变量必须先声明再使用
+            2.变量 = 数据类型 + 变量名 + 变量值
+        */
+        String name = "zhangsan";
+        int age = 18;
+        char gender = '男'; //为什么不能用"" 而是用''
+        double score = 88.8;
+        System.out.println(name);
+        System.out.println(age);
+        System.out.println(gender);
+        System.out.println(score);
+    }
+}
+```
+
+## +的使用
+
+```java
+public class PlusSign {
+    public static void main(String[] args){
+        /* 
+        + 的使用
+            当 + 两边的值是数值时，进行加法运算
+            当 + 两边的值是字符时，进行拼接运算
+            计算顺序：从左到右
+        */
+        System.out.println(1+"a");
+        System.out.println(1+2);
+        System.out.println(1+2+"a");
+    }
+}
+```
+
+## 数据类型
+
+```
+[*] 占*字节
+        数据类型：
+            基本数据类型：
+                数值型
+                    整数类型：
+                        byte[1]
+                        short[2]
+                        int[4]
+                        long[8]
+                    浮点类型：
+                        float[4]
+                        double[8]
+                字符型char：char[2]
+                布尔型boolean：boolean[1]
+            引用数据类型：
+                类class(!!!String属于类)
+                接口interface
+                数组[]
+```
+
+### 整数类型
+
+```
+1 byte = 8 bit
+```
+
+| 类型  | 占用存储空间 | 数值范围                     |
+| ----- | ------------ | ---------------------------- |
+| byte  | 1字节        | -128~127 (-2 ** 8~2 ** 8 -1) |
+| short | 2字节        | -2 ** 15 ~ 2  ** 15 - 1      |
+| int   | 4字节        | -2 ** 31 ~ 2  ** 31 - 1      |
+| long  | 8字节        | -2 ** 63 ~ 2  ** 63 - 1      |
+
+```
+1. java的整数类型，有固定的范围和字段长度，不受操作系统的影响，以保证java程序的可移植性
+2. 声明long型常量后面必须要加l负责L
+3. 通常情况下，使用int型，当范围不够的时候再使用long型
+```
+
+### 浮点类型
+
+```
+浮点数（小数）= 符号位 + 指数位 + 尾数位
+尾数位容易丢失，所以浮点数都是近似值
+```
+
+| 类型   | 占用存储空间 | 数值范围             |
+| ------ | ------------ | -------------------- |
+| float  | 4字节        | -3.403E38~3.403E38   |
+| double | 8字节        | -1.798E308~1.798E308 |
+
+```
+1. 声明float型常量后面必须要加 f 或者 F
+2. 浮点数的两种表示方法
+	2.1 十进制表示 0.123 前面的0可以省略
+	2.2 科学计数法 5.12e2 = 5.12 x 10 ** 2
+3. 我们应该使用double,因为它比float更精确（见下方实例）
+```
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        double num1 = 1.231231231;
+        float num2 = 1.231231231F;
+        System.out.println(num1); //1.231231231
+        System.out.println(num2); //1.2312312 输出的值精度没有double高
+    }
+}
+```
+
+```
+浮点数相等陷阱
+```
+
+```java
+public class Test2 {
+    public static void main(String[] args){
+        double num1 = 2.7;
+        double num2 = 8.1 / 3;
+        System.out.println(num1 == num2); //false
+        /* 
+            判断相等的方法
+            判断两个数的差值的绝对值在一个很小的范围即可
+            Math.abs 取绝对值
+        */
+        
+        if(Math.abs(num1 - num2) < 0.0000001){
+            System.out.println("相等");
+        }
+    }
+}
+```
+
+
+
+
+
+## java API
+
+[java API 中文在线文档](https://www.matools.com/api/java8)
+
+```
+怎么查找: jdk8,11 --> 包 --> 类 --> 方法
+离线版自带检索
+```
