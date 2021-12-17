@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-	</head>
-	<body>
-		<script type="text/javascript">
-			// 接口地址 https://api.apiopen.top/getJoke
 
-			const p = new Promise(function(resolve, reject) {
-				const xhr = new XMLHttpRequest();
-				xhr.open('GET', 'https://api.apiopen.top/getJoke');
-				xhr.send();
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState === 4) {
-						if (xhr.status >= 200 && xhr.status < 300) {
-							resolve(xhr.response);
-						} else {
-							resolve(xhr.status);
-						}
-					}
-				}
-			})
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
 
-			p.then(function(value) {
-				console.log(value);
-			}, function(reason) {
-				console.error(reason);
-			})
-		</script>
-	</body>
+<body>
+    <script type="text/javascript">
+        // 接口地址 https://api.apiopen.top/getJoke
+
+        function a() {
+            new Promise(function(resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://api.apiopen.top/getJoke');
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            resolve(xhr.response);
+                            console.log(xhr.response);
+                        } else {
+                            reject(xhr.status);
+                        }
+                    }
+                }
+            })
+        }
+        a()
+            .then(function(value) {
+                console.log(value);
+            }, function(reason) {
+                console.error(reason);
+            })
+    </script>
+</body>
+
 </html>
