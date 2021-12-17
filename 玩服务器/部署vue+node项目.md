@@ -180,6 +180,7 @@ pm2 stop all            // 停止所有
 pm2 restart app.js      // 重启
 pm2 restart all         // 重启所有
 pm2 delete  app.js      // 关闭
+pm2 list 				// 查看所有的pm2进程
 ```
 
 ### nodejs 自带node.js自带服务nohub，不需要安装别的包
