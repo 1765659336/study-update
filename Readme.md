@@ -1461,6 +1461,8 @@ Vue.config.keyCodes.huiche = 13
 
 `注册全局组件`
 
+这样直接就可以在项目中使用这个标签
+
 ```javascript
 //第一步：创建hello组件
 const hello = Vue.extend({
@@ -1476,8 +1478,16 @@ const hello = Vue.extend({
     }
 })
 
-//第二步：全局注册组件
+//第二步：全局注册组件，第一个参数是组件的名字，第二个参数是组件
 Vue.component('hello',hello)
+
+```
+
+```js
+import TypeNav from '@/components/TypeNav'
+
+// 注册全局组件
+Vue.component(TypeNav.name, TypeNav);
 ```
 
 
@@ -4155,7 +4165,7 @@ export default {
             <!-- 路由parse传参的字符串写法 -->
             <!-- <router-link :to="`/home/message/detail/${message.id}/${message.title}`">{{message.title}}</router-link> -->
             <!-- 路由传参的对象写法 -->
-            <!-- !!!!!!!!!!!!!!!!!!有一个坑，9 -->
+            <!-- !!!!!!!!!!!!!!!!!!有一个坑，使用对象形式传params参数，必须使用name，而不能使用path -->
             <router-link :to="{
               name:'detailName',
               params:{
@@ -4202,7 +4212,9 @@ export default {
 
 `方式二配置路由器通过props传递`
 
-router.js
+`在路由组件中正常通过props接收`
+
+`router.js`
 
 ```js
 import VueRouter from 'vue-router'
@@ -4227,8 +4239,12 @@ export default new VueRouter({
               // 简化路由跳转，相当于路径的简写形式
               name: 'detailName',
               path: 'detail',
-              // 传递params参数需要占位符
-              // path: 'detail/:id/:title',
+              // 传递params参数需要占位符,加上一个?表示可传可不传
+              // path: 'detail/:id/:title?',
+              /*
+              	params参数可传可不传时，要传递一个空的字符串怎么传
+              	this.$router.push({name:detailName,params:{id: "1",title: "" || undefined},query:{}})
+              */ 
               component: Detail,
               // props的第一种写法，值为对象，将对象中的所有key-value以props形式传递给Detail组件
               // props:{a:1,b:2}
@@ -4462,6 +4478,20 @@ export default {
     clearInterval(this.timer)
   },
 }
+```
+
+
+
+### 路由元信息
+
+```js
+// meta可以为组件的$router对象的meta属性对象添加自己设置的属性和值
+routes:[{
+			name:'guanyu',
+			path:'/about',
+			component:About,
+			meta:{title:'关于'}
+		},]
 ```
 
 
