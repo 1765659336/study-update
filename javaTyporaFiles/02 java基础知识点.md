@@ -24,25 +24,25 @@ public class Comment {
 Javadoc 工具可以识别文档注释中的一些特殊标签，这些标签一般以@开头，后跟一个指定的名字，有的也以{@开头，以}结束。Javadoc 可以识别的标签如下表所示：
 ```
 
-| 标签          | 描述                                                         | 标签类型                            |
-| ------------- | ------------------------------------------------------------ | ----------------------------------- |
-| @author       | 作者标识                                                     | 包、 类、接口                       |
+| 标签          | 描述                                                                         | 标签类型                            |
+| ------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
+| @author       | 作者标识                                                                     | 包、 类、接口                       |
 | @deprecated   | 标识当前API已经过期，仅为了保证兼容性依然存在，以此告之开发者不应再用这个API | 包、类、接口、值域、构造函数、 方法 |
-| {@docRoot}    | 指明当前文档根目录的路径                                     |                                     |
-| @exception    | 标志一个类抛出的异常                                         | 构造函数、 方法                     |
-| {@inheritDoc} | 从直接父类继承的注释                                         |                                     |
-| {@link}       | 链接到某个特定的成员对应的文档中                             | 包、类、接口、值域、构造函数、 方法 |
-| {@linkplain}  | 插入一个到另一个主题的链接，但是该链接显示纯文本字体         | 包、类、接口、值域、构造函数、 方法 |
-| @param        | 方法的入参名及描述信息，如入参有特别要求，可在此注释         | 构造函数、方法                      |
-| @return       | 对函数返回值的注释                                           | 方法                                |
-| @see          | 引用,查看相关内容，如类、方法、变量等                        | 包、类、接口、值域、构造函数、 方法 |
-| @serial       | 说明一个序列化属性                                           |                                     |
-| @serialData   | 说明通过writeObject( ) 和 writeExternal( )方法写的数据       |                                     |
-| @serialField  | 说明一个ObjectStreamField组件                                | @                                   |
-| @since        | 描述文本,API在什么程序的什么版本后开发支持                   | 包、类、接口、值域、构造函数、 方法 |
-| @throws       | 构造函数或方法所会抛出的异常                                 | 构造函数、 方法                     |
-| {@value}      | 显示常量的值，该常量必须是static属性                         | 静态值域                            |
-| @version      | 版本号                                                       | 包、 类、接口                       |
+| {@docRoot}    | 指明当前文档根目录的路径                                                     |                                     |
+| @exception    | 标志一个类抛出的异常                                                         | 构造函数、 方法                     |
+| {@inheritDoc} | 从直接父类继承的注释                                                         |                                     |
+| {@link}       | 链接到某个特定的成员对应的文档中                                             | 包、类、接口、值域、构造函数、 方法 |
+| {@linkplain}  | 插入一个到另一个主题的链接，但是该链接显示纯文本字体                         | 包、类、接口、值域、构造函数、 方法 |
+| @param        | 方法的入参名及描述信息，如入参有特别要求，可在此注释                         | 构造函数、方法                      |
+| @return       | 对函数返回值的注释                                                           | 方法                                |
+| @see          | 引用,查看相关内容，如类、方法、变量等                                        | 包、类、接口、值域、构造函数、 方法 |
+| @serial       | 说明一个序列化属性                                                           |                                     |
+| @serialData   | 说明通过writeObject( ) 和 writeExternal( )方法写的数据                       |                                     |
+| @serialField  | 说明一个ObjectStreamField组件                                                | @                                   |
+| @since        | 描述文本,API在什么程序的什么版本后开发支持                                   | 包、类、接口、值域、构造函数、 方法 |
+| @throws       | 构造函数或方法所会抛出的异常                                                 | 构造函数、 方法                     |
+| {@value}      | 显示常量的值，该常量必须是static属性                                         | 静态值域                            |
+| @version      | 版本号                                                                       | 包、 类、接口                       |
 
 ```java
 /* 
@@ -381,6 +381,9 @@ public class ConversionMandatory {
 ```java
 public class StringBasic {
     public static void main(String[] args){
+        int a = 1;
+        String str = a + "";
+        System.out.println(str); //1
         System.out.println(Integer.parseInt("123")); //123
         System.out.println(Double.parseDouble("123.1")); //123.1
         System.out.println(Float.parseFloat("1F"));//1.0
@@ -389,6 +392,302 @@ public class StringBasic {
         System.out.println(Boolean.parseBoolean("true"));//true
         System.out.println(Byte.parseByte("123"));//123
     }
+
 }
+```
+
+## 运算符
+
+### 算术运算符
+
+| 运算符 | 描述          |
+| ------ | ------------- |
+| +      | 正号          |
+| -      | 负号          |
+| +      | 加            |
+| -      | 减            |
+| *      | 乘            |
+| /      | 除            |
+| %      | 取模(取余)    |
+| i++    | 先赋值,再自增 |
+| ++i    | 先自增,再赋值 |
+| i--    | 先赋值,再自减 |
+| --i    | 先自减,再赋值 |
+| +      | 字符串拼接    |
+
+```java
+public class ArithmeticOperator {
+    public static void main(String[] args) {
+        /*
+         * | + | 正号 |
+         * | ---- | ------------- |
+         * | - | 负号 |
+         * | + | 加 |
+         * | - | 减 |
+         * | * | 乘 |
+         * | / | 除 |
+         * | % | 取模(取余) |
+         * | i++ | 先赋值,再自增 |
+         * | ++i | 先自增,再赋值 |
+         * | i-- | 先赋值,再自减 |
+         * | --i | 先自减,再赋值 |
+         * | + | 字符串拼接 |
+         */
+        int num1 = 9;
+        System.out.println(num1 % 2); // 1
+        // 单独使用
+        int num2 = 1;
+        int num3 = 1;
+        num2++;
+        ++num2;
+        System.out.println(num2); // 3
+        num3--;
+        --num3;
+        System.out.println(num3); // -1
+        // 作为表达式使用
+        int num4 = 1;
+        int num5 = 1;
+        int num6 = num4++;
+        int num7 = ++num5;
+        System.out.println(num6 + "-" + num7); // 1 - 2
+        System.out.println(num4 + "-" + num5); // 2 - 2
+    }
+}
+```
+
+#### 算术运算符练习(常考面试题)
+
+```java
+    public class Practice {
+    public static void main(String[] args){
+        // Practice1
+        int i = 1;
+        /* 
+            i = i++的执行过程
+            1. 将 i++ 的值赋值给i
+            2. i++ 先赋值再加1
+                2.1 将i = 1 的值作为表达式的值参与运算
+                2.2 发现右边的表达式没有其它的值了,则进行加1的操作,此时i 加了1,等于2
+                2.3 i = i++ 右边表示式执行完毕,将右边的值1进行赋值,i又等于1
+        */
+        i = i++;
+        System.out.println(i); //2
+
+        // Practice2
+        int j = 1;
+        /* 
+            j = ++j的执行过程
+            1. 将 ++j 的值赋值给j
+            2. j++ 先加1再赋值,此时j的值为2
+                2.1 将j = 2 的值作为表达式的值参与运算
+                2.2 发现右边的表达式没有其它的值了
+                2.3 j = ++j 右边表示式执行完毕,将右边的值2进行赋值,j还是等于2
+        */
+        j = ++j;
+        System.out.println(j); //2
+
+        // Practice3
+        int i1 = 10;
+        int i2 = 20;
+        int i3 = i1++;
+        System.out.println(i1); // 11
+        System.out.println(i2); // 20
+        i3 = --i2;
+        System.out.println(i3); // 19
+        System.out.println(i2); // 19
+    }
+}
+
+```
+
+### 关系运算符
+
+| 运算符     | 描述               |
+| ---------- | ------------------ |
+| ==         | 相等               |
+| !=         | 不等于             |
+| <          | 小于               |
+| >          | 大于               |
+| <=         | 小于等于           |
+| >=         | 大于等于           |
+| instanceof | 检查是否是类的对象 |
+
+```java
+public class RelationalOperator {
+    public static void main(String[] args){
+        String str = "abcd";
+        // 检测是否是某个类
+        System.out.println(str instanceof String); // true
+    }
+}
+```
+
+### 逻辑运算符
+
+| a     | b     | a&b   | a\|b  | a&&b  | a\|\|b | !a    | a^b   |
+| ----- | ----- | ----- | ----- | ----- | ------ | ----- | ----- |
+| true  | true  | true  | true  | true  | true   | false | false |
+| true  | false | false | true  | false | true   | false | true  |
+| false | true  | false | true  | false | true   | true  | true  |
+| false | false | false | false | false | false  | true  | false |
+
+```java
+public class LogicalOperator {
+    public static void main(String[] args){
+        // a^b 逻辑疑惑,两个boolean值相同则为false,不同则为true
+        boolean atrue = true;
+        boolean afalse = false;
+        boolean btrue = true;
+        boolean bfalse = false;
+        System.out.println(atrue^btrue); //false
+        System.out.println(afalse^btrue); //true
+        System.out.println(atrue^bfalse); //true
+        System.out.println(afalse^bfalse); //false
+    }
+}
+```
+
+### 赋值运算符
+
+```
+基本赋值运算符 = 
+复合赋值运算符
+	+=,-=,*=,/=,%=
+```
+
+### 三元运算符
+
+```
+条件表达式? 表达式1 : 表达式2;
+```
+
+```java
+public class TernaryOperator {
+    public static void main(String[] args){
+        int a = 1;
+        int b = 2;
+        String str = a < b ? "是的" : "不是";
+        System.out.println(str); // 是的
+    }
+}
+```
+
+### 运算符的优先级
+
+| 优先级 | 运算符                                           | 结合性   |
+| ------ | ------------------------------------------------ | -------- |
+| 1      | ()、[]、{}                                       | 从左向右 |
+| 2      | !、+、-、~、++、--                               | 从右向左 |
+| 3      | *、/、%                                          | 从左向右 |
+| 4      | +、-                                             | 从左向右 |
+| 5      | «、»、>>>                                        | 从左向右 |
+| 6      | <、<=、>、>=、instanceof                         | 从左向右 |
+| 7      | ==、!=                                           | 从左向右 |
+| 8      | &                                                | 从左向右 |
+| 9      | ^                                                | 从左向右 |
+| 10     | \|                                               | 从左向右 |
+| 11     | &&                                               | 从左向右 |
+| 12     | \|\|                                             | 从左向右 |
+| 13     | ?:                                               | 从右向左 |
+| 14     | =、+=、-=、*=、/=、&=、\|=、^=、~=、«=、»=、>>>= | 从右向左 |
+
+## 标识符
+
+### 标识符的规则
+
+```
+何为规则?规则就是必须遵守的,必须这么做
+	1. 标识符由26个英文字母大小写\数字,_或$组成
+	2. 不能以数字开头
+	3. 不可以使用关键字和保留字
+	4. 严格区分大小写,长度无限制
+	5. 标识符中不能包含空格
+```
+
+### 标识符的规范
+
+```
+何为规范?推荐这么做,做着比较好
+	包名: 多单词组成时所有的字母都使用小写 aaa.bbb.ccc
+	变量名和方法名: 多单词组成时,第一个字母小写,第二个单词开始首字母大写驼峰命名法
+	常量名: 所有字母大写.多字母时每个单词用下划线连接
+```
+
+### 关键字
+
+```
+被java赋予了一定意义的标识符,我们不能使用
+	class interface enum byte short int long float double char boolean void true false null if else switch case default while do for break continue return private protected public abstract final static synchronized extends implements new this super instanceof try catch finally throw throws package import native strictfp transient volatile assert
+```
+
+### 保留字
+
+```
+准备被java赋予一定意义的标识符,我们不能使用
+	byValue cast future generic inner operator outer rest var goto const
+```
+
+## 键盘输入
+
+```
+使用Scanner类来扫描用户的输入
+```
+
+```java
+import java.util.Scanner;
+public class MyScanner {
+    public static void main(String[] args){
+        /* 
+            1. 导入包java.util.Scanner
+            2. 创建Scanner类
+            3. 接收用户的输入
+        */
+        Scanner scanner = new Scanner(System.in); // System.in 表示键盘输入
+        System.out.println("请输入你的名字");
+        String name = scanner.next(); // 接收用户的输入,程序才会继续执行
+        System.out.println(name);
+    }
+}
+
+```
+
+## 进制
+
+### 常见的进制
+
+```
+对于整数,有四种常用的表示方式
+	二进制: 0b或0B开头
+	八进制: 0开头
+	十进制:
+	十六进制: 0x或0X开头 0~9, A~F 字母不区分大小写
+```
+
+```java
+public class main {
+    public static void main(String[] args){
+        int a = 0b11; // 2进制
+        int b = 3; // 10进制
+        int c = 003; // 8进制
+        int d = 0x3; // 16进制
+        System.out.println(a + "-" + b + "-" + c + "-" + d);// 3-3-3-3
+    }
+}
+```
+
+### 进制转换
+
+#### 其它进制转十进制
+
+![image-20211219224507773](02%20java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9.assets/image-20211219224507773.png)
+
+#### 十进制转其它进制
+
+![image-20211220000852241](02%20java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9.assets/image-20211220000852241.png)
+
+#### 其它进制(非10进制)转其它进制(非10进制)
+
+```
+本人觉得可以通过转10进制来中转一下
 ```
 
