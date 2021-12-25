@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">向父窗口传递数据</button>
+    <script>
+        let btn = document.querySelector("#btn");
+        btn.onclick = function(e) {
+            // 向所有的父窗口传递数据
+            window.opener.postMessage("我是子窗口传递过来的数据")
+        }
+    </script>
+</body>
+
+</html>
