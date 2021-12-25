@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			async function fn(){
+				// 默认返回undefined
+				// 1、返回非promise对象，状态为完成
+				return 123;
+				// 2、抛出一个对象，状态为拒绝
+				throw new Error('错误');
+				// 3、返回一个promise对象，状态和值由返回的promise对象的值决定
+				return new Promise(function(resolve,reject){
+					resolve(123);
+				})
+			}
+			
+			let result = fn();
+			console.log(result);
+			// 如果返回的是一个promise对象，则可以调用then方法
+			result.then(function(value){
+				console.log(value);
+			})
+		</script>
+	</body>
+</html>

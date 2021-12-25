@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			const p = new Promise(function(resolve, reject) {
+				// resolve(123);
+				reject('error');
+			})
+			// await只能在async函数中使用
+			async function fn() {
+				// await后面的promise对象是拒绝，使用trycatch接收错误
+				try {
+					// await后面一般是promise对象，await的值是promise对象的返回值
+					let result = await p;
+					console.log(result);
+				} catch (e) {
+					//TODO handle the exception
+					console.log(e);
+				}
+			}
+		</script>
+	</body>
+</html>

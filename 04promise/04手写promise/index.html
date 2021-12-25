@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./promise.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        let p = new Promise((resolve,reject)=>{
+        //  setTimeout(()=>{
+           resolve('ok')
+        //  },5000)
+          // reject('err');
+          // throw(521);
+        })
+        let p1 = p.then(value=>{
+          console.log(value);
+          /* return new Promise((resolve,reject)=>{
+            reject('err');
+          }) */
+          throw '123'
+        },reason=>{
+          console.log(reason);
+        })
+        /* p.then(value=>{
+          alert(value);
+        },reason=>{
+          alert(reason);
+        }) */
+        setInterval(()=>{
+          console.log(p);
+          console.log(p1);
+        },1000)
+      </script>
+  </body>
+</html>
